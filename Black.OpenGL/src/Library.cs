@@ -1,7 +1,7 @@
 using System.Runtime.InteropServices;
 using System.Reflection;
 
-namespace Draft.OpenGL;
+namespace Black.OpenGL;
 
 internal class Library
 {
@@ -26,6 +26,6 @@ internal class Library
                 return NativeLibrary.Load("libglfw.3", assembly, searchPath);
         }
 
-        return IntPtr.Zero;
+        return 0;
     }
 }

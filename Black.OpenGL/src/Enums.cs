@@ -1,4 +1,4 @@
-﻿namespace Draft.OpenGL;
+﻿namespace Black.OpenGL;
 
 public enum ClearMask : uint
 {
@@ -44,7 +44,7 @@ public enum ProgramParameterName : uint
     GeometryOutputType                  = 0x8918,
 }
 
-public enum BufferTarget
+public enum BufferTarget : uint
 {
     Array                               = 0x8892,
     CopyRead                            = 0x8F36,

@@ -1,9 +1,7 @@
-namespace Draft.OpenGL;
+namespace Black.OpenGL;
 
-using System.Runtime.InteropServices;
 using Black.Unmanaged;
-
-using static Draft.OpenGL.Native;
+using static Black.OpenGL.Native;
 
 public static unsafe partial class GL
 {
@@ -99,7 +97,7 @@ public static unsafe partial class GL
     public static void VertexAttribPointer(uint index, int size, AttributeType type, bool normalized, int stride, int offset)
     {
         if (size is < 1 or > 4)
-            throw new ArgumentOutOfRangeException("Size must be 1, 2, 3 or 4");
+            throw new ArgumentOutOfRangeException(nameof(size), "Size must be 1, 2, 3 or 4");
 
         glVertexAttribPointer(index, size, type, normalized ? True : False, stride, (void*)offset);
     }
@@ -107,9 +105,8 @@ public static unsafe partial class GL
     public static void VertexAttribIPointer(uint index, int size, AttributeTypeI type, int stride, int offset)
     {
         if (size is < 1 or > 4)
-            throw new ArgumentOutOfRangeException("Size must be 1, 2, 3 or 4");
+            throw new ArgumentOutOfRangeException(nameof(size), "Size must be 1, 2, 3 or 4");
             
         glVertexAttribIPointer(index, size, type, stride, (void*)offset);
     }
-
 }

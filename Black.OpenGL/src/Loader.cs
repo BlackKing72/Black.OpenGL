@@ -1,4 +1,4 @@
-namespace Draft.OpenGL;
+namespace Black.OpenGL;
 
 using System.Runtime.InteropServices;
 using Black.Unmanaged;
@@ -7,12 +7,12 @@ public static class Loader
 {
     private static readonly IGetProcAddress loader;
 
-    static Loader ()
+    static Loader()
     {
         loader = GetProcLoader();
     }
 
-    public static T LoadFunction<T> (string name) where T : Delegate
+    public static T LoadFunction<T>(string name) where T : Delegate
     {
         nint address = loader.GetProcAddress(name);
 
@@ -22,16 +22,16 @@ public static class Loader
         throw new Exception($"Failed to get procedure adreess for {name}");
     }
 
-    public static bool AddressIsValid (nint address)
+    public static bool AddressIsValid(nint address)
     {
         // From: https://www.khronos.org/opengl/wiki/Load_OpenGL_Functions
         // The MSDN documentation says that wglGetProcAddress returns NULL (0) on failure, some 
         // implementations will return other values. 1, 2, and 3 are used, as well as -1.
-        
+
         return address is not 0 or 1 or 2 or 3 or -1;
     }
 
-    private static IGetProcAddress GetProcLoader ()
+    private static IGetProcAddress GetProcLoader()
     {
         if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             return new WindowsGetProcAddress();
@@ -48,68 +48,59 @@ public static class Loader
 
 internal interface IGetProcAddress
 {
-    public nint GetProcAddress (string procName);
+    public nint GetProcAddress(string procName);
 }
 
-internal class WindowsGetProcAddress : IGetProcAddress
+internal unsafe sealed class WindowsGetProcAddress : IGetProcAddress
 {
-    public nint GetProcAddress (string procName)
+    public nint GetProcAddress(string procName)
     {
-        unsafe
-        {
-            using var unmanagedProcName = new UnmanagedStr(procName);
-            return wglGetProcAddress(unmanagedProcName);
+        using var unmanagedProcName = new UnmanagedStr(procName);
+        return wglGetProcAddress(unmanagedProcName);
 
-            [DllImport(Library.Name)]
-            static extern unsafe nint wglGetProcAddress (UnmanagedStr procName);
-        }
+        [DllImport(Library.Name)]
+        static extern nint wglGetProcAddress(byte* lpszProc);
     }
 }
 
-internal class LinuxGetProcAddress : IGetProcAddress
+internal unsafe sealed class LinuxGetProcAddress : IGetProcAddress
 {
-    public nint GetProcAddress (string procName)
+    public nint GetProcAddress(string procName)
     {
-        unsafe
-        {
-            using var unmanagedProcName = new UnmanagedStr(procName);
-            return glxGetProcAddress(unmanagedProcName);
+        using var unmanagedProcName = new UnmanagedStr(procName);
+        return glxGetProcAddress(unmanagedProcName);
 
-            [DllImport(Library.Name)]
-            static extern unsafe nint glxGetProcAddress (UnmanagedStr procName);
-        }
+        [DllImport(Library.Name)]
+        static extern unsafe nint glxGetProcAddress(UnmanagedStr procName);
     }
 }
 
-internal class OSXGetProcAddress : IGetProcAddress
+internal unsafe sealed class OSXGetProcAddress : IGetProcAddress
 {
     private const int False = 0;
 
-    public nint GetProcAddress (string procName)
+    public nint GetProcAddress(string procName)
     {
-        unsafe
-        {
-            using var unmanagedProcName = new UnmanagedStr(procName);
+        using var unmanagedProcName = new UnmanagedStr(procName);
 
-            if (NSIsSymbolNameDefined(unmanagedProcName) == False)
-                return nint.Zero;
+        if (NSIsSymbolNameDefined(unmanagedProcName) == False)
+            return nint.Zero;
 
-            nint symbol = NSLookupAndBindSymbol(unmanagedProcName);
+        nint symbol = NSLookupAndBindSymbol(unmanagedProcName);
 
-            if (symbol != nint.Zero)
-                symbol = NSAddressOfSymbol(symbol);
+        if (symbol != nint.Zero)
+            symbol = NSAddressOfSymbol(symbol);
 
-            return symbol;
+        return symbol;
 
-            [DllImport(Library.Name)]
-            static extern unsafe int NSIsSymbolNameDefined (UnmanagedStr s);
+        [DllImport(Library.Name)]
+        static extern unsafe int NSIsSymbolNameDefined(UnmanagedStr s);
 
-            [DllImport(Library.Name)]
-            static extern unsafe nint NSLookupAndBindSymbol (UnmanagedStr s);
+        [DllImport(Library.Name)]
+        static extern unsafe nint NSLookupAndBindSymbol(UnmanagedStr s);
 
-            [DllImport(Library.Name)]
-            static extern unsafe nint NSAddressOfSymbol (nint symbol);
-        }
+        [DllImport(Library.Name)]
+        static extern unsafe nint NSAddressOfSymbol(nint symbol);
     }
 }
 

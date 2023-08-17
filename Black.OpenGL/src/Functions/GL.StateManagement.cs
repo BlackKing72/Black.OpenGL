@@ -1,7 +1,7 @@
-namespace Draft.OpenGL;
+namespace Black.OpenGL;
 
 using System.Drawing;
-using static Draft.OpenGL.Native;
+using static Black.OpenGL.Native;
 
 public static unsafe partial class GL
 {

@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Draft.OpenGL;
+namespace Black.OpenGL;
 
 internal static unsafe partial class Native
 {
