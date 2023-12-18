@@ -75,6 +75,11 @@ public static unsafe partial class GL
         glDrawArrays(mode, first, count);
     }
 
+    public static void DrawElements(DrawMode mode, int count, ElementType type)
+    {
+        glDrawElements(mode, count, type, NullPtr);
+    }
+
     public static void EnableVertexAttribArray(uint index)
     {
         glEnableVertexAttribArray(index);

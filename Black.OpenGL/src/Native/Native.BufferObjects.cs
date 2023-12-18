@@ -31,6 +31,9 @@ internal unsafe partial class Native
     
     internal delegate void DrawArrays(DrawMode mode, int first, int count);
     [OpenGL<DrawArrays>] internal static DrawArrays glDrawArrays;
+
+    internal delegate void DrawElements(DrawMode mode, int count, ElementType type, void* indices);
+    [OpenGL<DrawElements>] internal static DrawElements glDrawElements;
     
     internal delegate void EnableVertexAttribArray(uint index);
     [OpenGL<EnableVertexAttribArray>] internal static EnableVertexAttribArray glEnableVertexAttribArray;

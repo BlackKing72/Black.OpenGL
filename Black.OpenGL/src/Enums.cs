@@ -130,6 +130,17 @@ public enum DrawMode : uint
     TriangleStripAdjacency              = 0x000D,
 }
 
+public enum ElementType : uint
+{
+    UByte               = AttributeTypeI.UByte,
+    UShort              = AttributeTypeI.UShort,
+    UInt                = AttributeTypeI.UInt,
+
+    U8                  = UByte,
+    U16                 = UShort,    
+    U32                 = UInt,
+}
+
 public enum ClearBufferTarget : uint
 {
     Color                               = 0x1800,
