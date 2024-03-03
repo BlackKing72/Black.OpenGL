@@ -15,6 +15,6 @@ internal static unsafe partial class Native
     public const byte True = 1;
     public const byte False = 0;
 
-    public static byte ToGL (this bool value) => value ? True : False;
-    public static bool FromGL (this byte value) => value == True;
+    public static byte ToGLBoolean (this bool value) => value ? True : False;
+    public static bool FromGLBoolean (this byte value) => value == True;
 }

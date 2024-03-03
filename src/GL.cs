@@ -4,7 +4,9 @@ namespace Black.OpenGL;
 
 public static unsafe partial class GL
 {
-    static GL()
+    public static event Action<LoadProcedureException>? OnLoadFailed = null;
+
+    public static void Initialize()
     {
         Library.Initialize();
         LoadFunctions();
@@ -20,11 +22,21 @@ public static unsafe partial class GL
             if (attribute is null)
                 continue;
 
-            Delegate? lastValue = field.GetValue(null) as Delegate;
-            Delegate currentValue = attribute.GetProcedure(field.Name);
+            try 
+            {
+                Delegate? lastValue = field.GetValue(null) as Delegate;
+                Delegate currentValue = attribute.GetProcedure(field.Name);
 
-            if (lastValue != currentValue)
-                field.SetValue(null, currentValue);
+                if (lastValue != currentValue)
+                    field.SetValue(null, currentValue);
+            }
+            catch(LoadProcedureException e)
+            {
+                if (OnLoadFailed is null)
+                    throw;
+
+                OnLoadFailed.Invoke(e);
+            }
         }
     }
 }

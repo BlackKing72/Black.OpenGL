@@ -23,6 +23,9 @@ internal unsafe partial class Native
     
     internal delegate void DeleteShader(uint shader);
     [OpenGL<DeleteShader>] internal static DeleteShader glDeleteShader;
+
+    internal delegate void DetachShader(uint program, uint shader);
+    [OpenGL<DetachShader>] internal static DetachShader glDetachShader;
     
     internal delegate void GetProgramiv(uint program, ProgramParameterName pname, int* @params);
     [OpenGL<GetProgramiv>] internal static GetProgramiv glGetProgramiv;
@@ -36,6 +39,18 @@ internal unsafe partial class Native
     internal delegate void GetShaderInfoLog(uint shader, int maxLength, int* length, UnmanagedStr infoLog);
     [OpenGL<GetShaderInfoLog>] internal static GetShaderInfoLog glGetShaderInfoLog;
     
+    internal delegate int GetAttribLocation (uint program, UnmanagedStr name);
+    [OpenGL<GetAttribLocation>] internal static GetAttribLocation glGetAttribLocation;
+
+    internal delegate int GetUniformLocation(uint program, UnmanagedStr name);
+    [OpenGL<GetUniformLocation>] internal static GetUniformLocation glGetUniformLocation;
+
+    internal delegate byte IsProgram(uint program);
+    [OpenGL<IsProgram>] internal static IsProgram glIsProgram;
+
+    internal delegate byte IsShader(uint shader);
+    [OpenGL<IsShader>] internal static IsShader glIsShader;
+    
     internal delegate void LinkProgram(uint program);
     [OpenGL<LinkProgram>] internal static LinkProgram glLinkProgram;
     
@@ -44,6 +59,33 @@ internal unsafe partial class Native
     
     internal delegate void UseProgram(uint program);
     [OpenGL<UseProgram>] internal static UseProgram glUseProgram;
+
+    internal delegate void Uniform1f (int location, float v0);
+    [OpenGL<Uniform1f>] internal static Uniform1f glUniform1f;
+
+    internal delegate void Uniform2f (int location, float v0, float v1);
+    [OpenGL<Uniform2f>] internal static Uniform2f glUniform2f;
+
+    internal delegate void Uniform3f (int location, float v0, float v1, float v2);
+    [OpenGL<Uniform3f>] internal static Uniform3f glUniform3f;
+
+    internal delegate void Uniform4f (int location, float v0, float v1, float v2, float v3);
+    [OpenGL<Uniform4f>] internal static Uniform4f glUniform4f;
+
+    internal delegate void Uniform1i (int location, int v0);
+    [OpenGL<Uniform1i>] internal static Uniform1i glUniform1i;
+    
+    internal delegate void Uniform2i (int location, int v0, int v1);
+    [OpenGL<Uniform2i>] internal static Uniform2i glUniform2i;
+    
+    internal delegate void Uniform3i (int location, int v0, int v1, int v2);
+    [OpenGL<Uniform3i>] internal static Uniform3i glUniform3i;
+    
+    internal delegate void Uniform4i (int location, int v0, int v1, int v2, int v3);
+    [OpenGL<Uniform4i>] internal static Uniform4i glUniform4i;
+    
+    internal delegate void UniformMatrix4fv (int location, nint count, byte transpose, float* value);
+    [OpenGL<UniformMatrix4fv>] internal static UniformMatrix4fv glUniformMatrix4fv;
 }
 
 #pragma warning restore CS0649 // Field is never assigned to, and will always have its default value null

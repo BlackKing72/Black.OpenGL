@@ -1,6 +1,9 @@
 namespace Black.OpenGL;
 
 using System.Drawing;
+using System.Numerics;
+using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
 using Black.Unmanaged;
 using static Black.OpenGL.Native;
 
@@ -34,6 +37,23 @@ public static unsafe partial class GL
     public static void DeleteShader(uint shader)
     {
         glDeleteShader(shader);
+    }
+
+    public static void DeleteShaders(ReadOnlySpan<uint> shaders)
+    {
+        foreach(var shader in shaders)
+            glDeleteShader(shader);
+    }
+
+    public static void DetachShader(uint program, uint shader)
+    {
+        glDetachShader(program, shader);
+    }
+
+    public static void DetachShaders(uint program, ReadOnlySpan<uint> shaders)
+    {
+        foreach(var shader in shaders)
+            glDetachShader(program, shader);
     }
 
     public static int GetProgram(uint program, ProgramParameterName parameterName)
@@ -90,6 +110,29 @@ public static unsafe partial class GL
         return unmanagedInfoLog;
     }
 
+    public static int GetAttribLocation (uint program, string name)
+    {
+        using var unmanagedName = new UnmanagedStr(name);
+        return glGetAttribLocation(program, unmanagedName);
+    }
+
+    public static int GetUniformLocation(uint program, string name)
+    {
+        using var unmanagedName = new UnmanagedStr(name);
+        return glGetUniformLocation(program, unmanagedName);
+    }
+
+    public static bool IsProgram(uint program)
+    {
+        return glIsProgram(program).FromGLBoolean();
+    }
+
+    public static bool IsShader(uint shader)
+    {
+        return glIsShader(shader).FromGLBoolean();
+    }
+
+
     public static void LinkProgram(uint program)
     {
         glLinkProgram(program);
@@ -121,4 +164,51 @@ public static unsafe partial class GL
     {
         glUseProgram(program);
     }
+
+    public static void Uniform (int location, float v0)
+    {
+        glUniform1f(location, v0);
+    }
+
+    public static void Uniform (int location, float v0, float v1)
+    {
+        glUniform2f(location, v0, v1);
+    }
+
+    public static void Uniform (int location, float v0, float v1, float v2)
+    {
+        glUniform3f(location, v0, v1, v2);
+    }
+
+    public static void Uniform (int location, float v0, float v1, float v2, float v3)
+    {
+        glUniform4f(location, v0, v1, v2, v3);
+    }
+
+    public static void Uniform (int location, int v0)
+    {
+        glUniform1i(location, v0);
+    }
+
+    public static void Uniform (int location, int v0, int v1)
+    {
+        glUniform2i(location, v0, v1);
+    }
+
+    public static void Uniform (int location, int v0, int v1, int v2)
+    {
+        glUniform3i(location, v0, v1, v2);
+    }
+
+    public static void Uniform (int location, int v0, int v1, int v2, int v3)
+    {
+        glUniform4i(location, v0, v1, v2, v3);
+    }
+
+
+    public static void UniformMatrix (int location, bool transpose, Matrix4x4 matrix)
+    {
+        glUniformMatrix4fv(location, 1, transpose.ToGLBoolean(), &matrix.M11);
+    }
+
 }

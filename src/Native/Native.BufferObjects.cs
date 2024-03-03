@@ -35,12 +35,34 @@ internal unsafe partial class Native
     internal delegate void DrawElements(DrawMode mode, int count, ElementType type, void* indices);
     [OpenGL<DrawElements>] internal static DrawElements glDrawElements;
     
+    internal delegate void DrawElementsBaseVertex (DrawMode mode, int count, ElementType type, void *indices, int basevertex);
+    [OpenGL<DrawElementsBaseVertex>] internal static DrawElementsBaseVertex glDrawElementsBaseVertex;
+
+
     internal delegate void EnableVertexAttribArray(uint index);
     [OpenGL<EnableVertexAttribArray>] internal static EnableVertexAttribArray glEnableVertexAttribArray;
     
     internal delegate void GenBuffers(int n, uint* buffers);
     [OpenGL<GenBuffers>] internal static GenBuffers glGenBuffers;
-    
+
+    internal delegate void GetVertexAttribdv(uint index, GetAtribParameters pname, double* @params);
+    [OpenGL<GetVertexAttribdv>] internal static GetVertexAttribdv glGetVertexAttribdv;
+
+    internal delegate void GetVertexAttribfv(uint index, GetAtribParameters pname, float* @params);
+    [OpenGL<GetVertexAttribfv>] internal static GetVertexAttribfv glGetVertexAttribfv;
+
+    internal delegate void GetVertexAttribiv(uint index, GetAtribParameters pname, int* @params);
+    [OpenGL<GetVertexAttribiv>] internal static GetVertexAttribiv glGetVertexAttribiv;
+
+    internal delegate void GetVertexAttribIiv(uint index, GetAtribParameters pname, int* @params);
+    [OpenGL<GetVertexAttribIiv>] internal static GetVertexAttribIiv glGetVertexAttribIiv;
+
+    internal delegate void GetVertexAttribIuiv(uint index, GetAtribParameters pname, uint* @params);
+    [OpenGL<GetVertexAttribIuiv>] internal static GetVertexAttribIuiv glGetVertexAttribIuiv;
+
+    internal delegate void GetVertexAttribPointerv(uint index, uint pname, void** pointer);
+    [OpenGL<GetVertexAttribPointerv>] internal static GetVertexAttribPointerv glGetVertexAttribPointerv;
+
     internal delegate void VertexAttribPointer(uint index, int size, AttributeType type, byte normalized, int stride, void* pointer);
     [OpenGL<VertexAttribPointer>] internal static VertexAttribPointer glVertexAttribPointer;
 
