@@ -1,4 +1,6 @@
-﻿namespace Black.OpenGL;
+namespace Black.OpenGL;
+
+
 
 public enum ClearMask : uint
 {
@@ -185,6 +187,34 @@ public enum ReadPixelFormat : uint
 
 public enum ReadPixelType : uint
 {
+    SByte                               = PixelTypes.SByte,
+    UByte                               = PixelTypes.UByte,
+    Short                               = PixelTypes.Short,
+    UShort                              = PixelTypes.UShort,
+    Int                                 = PixelTypes.Int,
+    UInt                                = PixelTypes.UInt,
+    Float                               = PixelTypes.Float,
+    Half                                = PixelTypes.Half,
+    UByte_332                           = PixelTypes.UByte_332,
+    UByte_233_Rev                       = PixelTypes.UByte_233_Rev,
+    UShort_565                          = PixelTypes.UShort_565,
+    UShort_565_Rev                      = PixelTypes.UShort_565_Rev,
+    UShort_4444                         = PixelTypes.UShort_4444,
+    UShort_4444_Rev                     = PixelTypes.UShort_4444_Rev,
+    UShort_5551                         = PixelTypes.UShort_5551,
+    UShort_1555_Rev                     = PixelTypes.UShort_1555_Rev,
+    UInt_8888                           = PixelTypes.UInt_8888,
+    UInt_8888_Rev                       = PixelTypes.UInt_8888_Rev,
+    Uint_1010102                        = PixelTypes.Uint_1010102,
+    Uint_2101010_Rev                    = PixelTypes.Uint_2101010_Rev,
+    UInt_248                            = PixelTypes.UInt_248,
+    UInt_10F11F11F_Rev                  = PixelTypes.UInt_10F11F11F_Rev,
+    Uint_5999_Rev                       = PixelTypes.Uint_5999_Rev,
+    Float_32_UInt_248_Rev               = PixelTypes.Float_32_UInt_248_Rev,
+}
+
+public enum PixelTypes : uint
+{
     SByte                               = 0x1400,
     UByte                               = 0x1401,
     Short                               = 0x1402,
@@ -211,89 +241,39 @@ public enum ReadPixelType : uint
     Float_32_UInt_248_Rev               = 0x8DAD,
 }
 
-
-
-
-
-#region Old
-
-public enum TexTarget : uint
+public enum PixelFormats : uint
 {
-    Texture1D                           = 0x0DE0,
-    Texture1DProxy                      = 0x8063,
-    Texture1DArray                      = 0x8C18,
-    Texture1DProxyArray                 = 0x8C19,
-
-    Texture2D                           = 0x0DE1,
-    Texture2DProxy                      = 0x8070,
-    Texture2DArray                      = 0x8C1A,
-    Texture2DProxyArray                 = 0x0,
-    Texture2DMultisample                = 0x9100,
-    Texture2DMultisampleArray           = 0x9102,
-
-    Texture3D                           = 0x806F,
-    Texture3DProxy                      = 0x0,
-
-    Rectangle                           = 0x84F5,
-    Buffer                              = 0x8C2A,
-
-    CubeMap                             = 0x8513,
-    CubeMapProxy                        = 0x851B,
-    CubeMapPositiveX                    = 0x8515,
-    CubeMapNegativeX                    = 0x8516,
-    CubeMapPositiveY                    = 0x8517,
-    CubeMapNegativeY                    = 0x8518,
-    CubeMapPositiveZ                    = 0x8519,
-    CubeMapNegativeZ                    = 0x851A,
+    StencilIndex                        = 0x1901, 
+    DepthComponent                      = 0x1902, 
+    DepthStencil                        = 0x84F9, 
+    Red                                 = 0x1903, 
+    Green                               = 0x1904, 
+    Blue                                = 0x1905, 
+    Rg                                  = 0x8227, 
+    Rgb                                 = 0x1907, 
+    Rgba                                = 0x1908, 
+    Bgr                                 = 0x80E0, 
+    Bgra                                = 0x80E1, 
+    RedInteger                          = 0x8D94, 
+    GreenInteger                        = 0x8D95, 
+    BlueInteger                         = 0x8D96, 
+    RgInteger                           = 0x8228, 
+    RgbInteger                          = 0x8D98, 
+    RgbaInteger                         = 0x8D99, 
+    BgrInteger                          = 0x8D9A, 
+    BgraInteger                         = 0x8D9B,
 }
 
-public enum Compressed1DTarget : uint
+public enum GetAtribParameters : uint
 {
-    Texture1D                           = TexTarget.Texture1D,
-    Texture1DProxy                      = TexTarget.Texture1DProxy,
+    VertexAttribArrayBufferBinding      = 0x8625, 
+    VertexAttribArrayDivisor            = 0x8624, 
+    VertexAttribArrayEnabled            = 0x8623, 
+    VertexAttribArrayInteger            = 0x8645, 
+    VertexAttribArrayNormalized         = 0x886A, 
+    VertexAttribArrayPointer            = 0x88FD,
+    VertexAttribArraySize               = 0x8622, 
+    VertexAttribArrayStride             = 0x88FE, 
+    VertexAttribArrayType               = 0x889F, 
+    CurrentVertexAttrib                 = 0x8626,
 }
-
-public enum Compressed2DTarget : uint
-{
-    Texture2D                           = TexTarget.Texture2D,
-    Texture2DProxy                      = TexTarget.Texture2DProxy,
-    Texture1DArray                      = TexTarget.Texture1DArray,
-    Texture1DProxyArray                 = TexTarget.Texture1DProxyArray,
-    CubeMapProxy                        = TexTarget.CubeMapProxy,
-    CubeMapPositiveX                    = TexTarget.CubeMapPositiveX,
-    CubeMapNegativeX                    = TexTarget.CubeMapNegativeX,
-    CubeMapPositiveY                    = TexTarget.CubeMapPositiveY,
-    CubeMapNegativeY                    = TexTarget.CubeMapNegativeY,
-    CubeMapPositiveZ                    = TexTarget.CubeMapPositiveZ,
-    CubeMapNegativeZ                    = TexTarget.CubeMapNegativeZ,
-}
-
-public enum Compressed3DTarget : uint
-{
-    Texture3D                           = TexTarget.Texture3D,
-    Texture3DProxy                      = TexTarget.Texture3DProxy,
-    Texture2DArray                      = TexTarget.Texture2DArray,
-    Texture2DProxyArray                 = TexTarget.Texture2DProxyArray,
-}
-
-public enum InternalFormat : uint
-{
-    CompressedRed                       = 0x8225,
-    CompressedRg                        = 0x8226,
-    CompressedRgb                       = 0x84ED,
-    CompressedRgba                      = 0x84EE,
-    CompressedSrgb                      = 0x8C48,
-    CompressedSrgba                     = 0x8C49,
-}
-
-public enum CompressedInternalFormat : uint
-{
-    CompressedRed                       = InternalFormat.CompressedRed,
-    CompressedRg                        = InternalFormat.CompressedRg,
-    CompressedRgb                       = InternalFormat.CompressedRgb,
-    CompressedRgba                      = InternalFormat.CompressedRgba,
-    CompressedSrgb                      = InternalFormat.CompressedSrgb,
-    CompressedSrgba                     = InternalFormat.CompressedSrgba,
-}
-
-#endregion

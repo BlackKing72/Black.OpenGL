@@ -1,5 +1,6 @@
 namespace Black.OpenGL;
 
+using System.Runtime.CompilerServices;
 using Black.Unmanaged;
 using static Black.OpenGL.Native;
 
@@ -24,6 +25,11 @@ public static unsafe partial class GL
             throw new ArgumentOutOfRangeException(nameof(target), $"Target must be either Transform Feedback or a Uniform buffer");
 
         glBindBufferRange(target, index, buffer, offset, size);
+    }
+
+    public static void BufferData(BufferTarget target, int size, nint data, BufferUsageHint usage)
+    {
+        glBufferData(target, size, data.ToPointer(), usage);
     }
 
     public static void BufferData<T>(BufferTarget target, T data, BufferUsageHint usage) where T : unmanaged
@@ -79,6 +85,21 @@ public static unsafe partial class GL
     {
         glDrawElements(mode, count, type, NullPtr);
     }
+    
+    public static void DrawElementsBaseVertex (DrawMode mode, int count, ElementType type, void *indices, int basevertex)
+    {
+        glDrawElementsBaseVertex(mode, count, type, indices, basevertex);
+    }
+
+    public static void DrawElementsBaseVertex (DrawMode mode, int count, ElementType type, nint indices, int basevertex)
+    {
+        glDrawElementsBaseVertex(mode, count, type, indices.ToPointer(), basevertex);
+    }
+
+    public static void DrawElementsBaseVertex<T> (DrawMode mode, int count, ElementType type, ReadOnlySpan<T> indices, int basevertex) where T : unmanaged
+    {
+        glDrawElementsBaseVertex(mode, count, type, (void*)indices.AsPointer(), basevertex);
+    }
 
     public static void EnableVertexAttribArray(uint index)
     {
@@ -97,6 +118,86 @@ public static unsafe partial class GL
         uint[] buffers = new uint[count];
         glGenBuffers(buffers.Length, buffers.AsPointer());
         return buffers;
+    }
+
+    public static double GetVertexAttribdv(uint index, GetAtribParameters pname)
+    {
+        double value = 0.0;
+        glGetVertexAttribdv(index, pname, &value);
+        return value;
+    }
+
+    public static void GetVertexAttribdv(uint index, GetAtribParameters pname, double* values)
+    {
+        glGetVertexAttribdv(index, pname, values);
+    }
+
+    public static float GetVertexAttribfv(uint index, GetAtribParameters pname)
+    {
+        float value = 0.0f;
+        glGetVertexAttribfv(index, pname, &value);
+        return value;
+    }
+
+    public static void GetVertexAttribfv(uint index, GetAtribParameters pname, float* values)
+    {
+        glGetVertexAttribfv(index, pname, values);
+    }
+
+    public static int GetVertexAttribiv(uint index, GetAtribParameters pname)
+    {
+        int value = 0;
+        glGetVertexAttribiv(index, pname, &value);
+        return value;        
+    }
+
+    public static void GetVertexAttribiv(uint index, GetAtribParameters pname, int* values)
+    {
+        glGetVertexAttribiv(index, pname, values);
+    }
+
+    public static int GetVertexAttribIiv(uint index, GetAtribParameters pname)
+    {
+        int value = 0;
+        glGetVertexAttribIiv(index, pname, &value);
+        return value;   
+    }
+
+    public static void GetVertexAttribIiv(uint index, GetAtribParameters pname, int* values)
+    {
+        glGetVertexAttribIiv(index, pname, values);
+    }
+
+    public static uint GetVertexAttribIuiv(uint index, GetAtribParameters pname)
+    {
+        uint value = 0;
+        glGetVertexAttribIuiv(index, pname, &value);
+        return value;   
+    }
+
+    public static void GetVertexAttribIuiv(uint index, GetAtribParameters pname, uint* values)
+    {
+        glGetVertexAttribIuiv(index, pname, values);
+    }
+
+    public static void GetVertexAttribPointerv(uint index, ref nint pointer)
+    {
+        const uint VertexAttribArrayPointer = 0x8645;
+        glGetVertexAttribPointerv(index, VertexAttribArrayPointer, (void**)Unsafe.AsPointer(ref pointer));
+    }
+
+    public static nint GetVertexAttribPointerv(uint index)
+    {
+        const uint VertexAttribArrayPointer = 0x8645;
+        nint pointer = new nint(0);
+        glGetVertexAttribPointerv(index, VertexAttribArrayPointer, (void**)&pointer);
+        return pointer;
+    }
+
+    public static void GetVertexAttribPointerv(uint index, void** pointer)
+    {
+        const uint VertexAttribArrayPointer = 0x8645;
+        glGetVertexAttribPointerv(index, VertexAttribArrayPointer, pointer);
     }
 
     public static void VertexAttribPointer(uint index, int size, AttributeType type, bool normalized, int stride, int offset)

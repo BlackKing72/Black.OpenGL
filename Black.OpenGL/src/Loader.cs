@@ -3,6 +3,17 @@ namespace Black.OpenGL;
 using System.Runtime.InteropServices;
 using Black.Unmanaged;
 
+public sealed class LoadProcedureException : Exception
+{
+    public string ProcedureName { get; private set; }
+
+    public LoadProcedureException (string procedureName) 
+        : base($"Failed to get procedure adreess for '{procedureName}'.")
+    {
+        ProcedureName = procedureName;
+    }
+}
+
 public static class Loader
 {
     private static readonly IGetProcAddress loader;
@@ -19,7 +30,7 @@ public static class Loader
         if (AddressIsValid(address))
             return Marshal.GetDelegateForFunctionPointer<T>(address);
 
-        throw new Exception($"Failed to get procedure adreess for {name}");
+        throw new LoadProcedureException(name);
     }
 
     public static bool AddressIsValid(nint address)
