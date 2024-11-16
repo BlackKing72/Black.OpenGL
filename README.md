@@ -1,22 +1,57 @@
 # Black.OpenGL
-OpenGL 3 bindings that support native AOT.
+
+OpenGL 3 bindings that support native AOT compilation.
 
 ### Status
-This library is not complete yet, and functions are added as needed. So expect some OpenGL functions to be missing, especially the newer APIs.
+
+This library is a working in progress. Functions are added as needed, so expect some OpenGL functions to be missing, especially from newer APIs. Expect incomplete  functionality for now.
+
 
 ### Loading a specific version of OpenGL
-The current implementation ignore the OpengGL version and just try to load all the functions available on the API.
 
-If during initialization a function is missing, the API will raise an event and you can decide how you want to handled it.
+The current implementation ignore the OpengGL versioning and attempts to load all available functions from the API.
 
-This is someting that i want to redone at some point.
+If a function fails to load during initialization, the library raises an event (`OnLoadFailed`). You can subscribe to this event and handle the failure as needed. If no handler is registered, an Exception will be throw instead.
+
+```cs
+GL.OnLoadFailed += (LoadProcedureException e) => {
+  Console.WriteLine($"Failed to load a function: {e.Message}");
+};
+```
+
+> Note: This is someting that i want to change at some point.
+
+### Usage
+To use the library follow these steps:
+
+1. Create a valid OpenGL context using a library such as [GLFW](https://www.glfw.org/) or [SDL](https://www.libsdl.org/index.php).   
+2. (Optional) Subscribe to the `OnLoadFailed` event to handle missing OpenGL functions.
+3. Initialize the library using `GL.Initialize()`.
+
+Example:
+```cs
+using Black.OpenGL;
+
+// 1: Create an OpenGL context (using GLFW, SDL, etc.)
+// (Code for setting up the context will depend on your chosen library)
+
+// 2: (Optional) Handle missing function errors
+GL.OnLoadFailed += (LoadProcedureException e) =>
+{
+    Console.WriteLine($"Failed to load a function: {e.Message}");
+};
+
+// 3: Initialize the library
+GL.Initialize();
+```
 
 ### FAQ
+
 > **Why am I building this?**
 > Mainly for learning purposes and for personal use in other projects.
 
 > **Why create a new library instead of using the ones currently available?**
-> Some of them don't support AOT, or don't support my older hardware. 
+> Some existing libraries don't support AOT compilation, and/or don't have compatibility with my older hardware. 
 
 > **Is production ready?**
-> Maybe one day, but for now **NO**. This is made mainly for learning purposes, and for me to use in my prototypes, so, some of the API still untested and some of the code is not great. if you're fine with that, be free to test it in your project.
+> Not yet, and may never be. This project is mainly for learning purposes and experimentation. While it works for my projects, parts of the API will remain untested and some of the code will require refinement. if you're okay with these limitation, feel free to try it out in your projects.
