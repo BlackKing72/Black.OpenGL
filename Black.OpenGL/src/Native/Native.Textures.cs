@@ -75,7 +75,7 @@ internal unsafe partial class Native
     [OpenGL<IsTexture>] internal static IsTexture glIsTexture;
     internal delegate void TexBuffer(uint target, SizedInternalFormats internalformat, uint buffer);
     [OpenGL<TexBuffer>] internal static TexBuffer glTexBuffer;
-    internal delegate void TexImage1D(Texture1DTargets target, int level, InternalFormats1D internalformat, int width, int border, TexturePixelFormats format, PixelTypes type, void* data);
+    internal delegate void TexImage1D(Texture1DTargets target, int level, Internal1DFormats internalformat, int width, int border, TexturePixelFormats format, PixelTypes type, void* data);
     [OpenGL<TexImage1D>] internal static TexImage1D glTexImage1D;
     internal delegate void TexImage2D(Texture2DTargets target, int level, SizedInternalFormats internalformat, int width, int height, int border, TexturePixelFormats format, PixelTypes type, void* data);
     [OpenGL<TexImage2D>] internal static TexImage2D glTexImage2D;

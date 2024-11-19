@@ -24,7 +24,7 @@ public static unsafe partial class GL
         return glCreateProgram();
     }
 
-    public static uint CreateShader(ShaderType shaderType)
+    public static uint CreateShader(ShaderTypes shaderType)
     {
         return glCreateShader(shaderType);
     }
@@ -56,7 +56,7 @@ public static unsafe partial class GL
             glDetachShader(program, shader);
     }
 
-    public static int GetProgram(uint program, ProgramParameterName parameterName)
+    public static int GetProgram(uint program, ProgramParameterNames parameterName)
     {
         int parameter;
         glGetProgramiv(program, parameterName, &parameter);
@@ -65,15 +65,15 @@ public static unsafe partial class GL
 
     public static bool GetProgramLinkStatus(uint program)
     {
-        return GetProgram(program, ProgramParameterName.LinkStatus) == True;
+        return GetProgram(program, ProgramParameterNames.LinkStatus) == True;
     }
 
     public static int GetProgramInfoLogLength(uint program)
     {
-        return GetProgram(program, ProgramParameterName.InfoLogLength);
+        return GetProgram(program, ProgramParameterNames.InfoLogLength);
     }
 
-    public static int GetShader(uint shader, ShaderParameterName parameterName)
+    public static int GetShader(uint shader, ShaderParameterNames parameterName)
     {
         int parameter;
         glGetShaderiv(shader, parameterName, &parameter);
@@ -82,12 +82,12 @@ public static unsafe partial class GL
 
     public static bool GetShaderCompileStatus (uint shader)
     {
-        return GetShader(shader, ShaderParameterName.CompileStatus) == True;
+        return GetShader(shader, ShaderParameterNames.CompileStatus) == True;
     }
     
     public static int GetShaderInfoLogLength (uint shader)
     {
-        return GetShader(shader, ShaderParameterName.InfoLogLength);
+        return GetShader(shader, ShaderParameterNames.InfoLogLength);
     }
 
     public static string GetProgramInfoLog(uint program)

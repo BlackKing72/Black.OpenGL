@@ -11,42 +11,42 @@ public static unsafe partial class GL
 {
     public static void Clear (Color? color = null, double? depth = null, int? stencil = null)
     {
-        ClearMask mask = 0;
+        ClearMasks mask = 0;
 
         if (color.HasValue)
         {
             ClearColor(color.Value);
-            mask |= ClearMask.Color;
+            mask |= ClearMasks.Color;
         }
 
         if (depth.HasValue)
         {
             ClearDepth(depth.Value);
-            mask |= ClearMask.Depth;
+            mask |= ClearMasks.Depth;
         }
 
         if (stencil.HasValue)
         {
             ClearStencil(stencil.Value);
-            mask |= ClearMask.Stencil;
+            mask |= ClearMasks.Stencil;
         }
 
         Clear(mask);
     }
-    public static void Clear (ClearMask mask)
+    public static void Clear (ClearMasks mask)
     {
         glClear(mask);
     }
 
-    private static void ClearBuffer (ClearBufferTarget buffer, int drawBuffer, ReadOnlySpan<int> data)
+    private static void ClearBuffer (ClearBufferTargets buffer, int drawBuffer, ReadOnlySpan<int> data)
     {
         glClearBufferiv(buffer, drawBuffer, data.AsPointer());
     }
-    private static void ClearBuffer (ClearBufferTarget buffer, int drawBuffer, ReadOnlySpan<uint> data)
+    private static void ClearBuffer (ClearBufferTargets buffer, int drawBuffer, ReadOnlySpan<uint> data)
     {
         unsafe { glClearBufferuiv(buffer, drawBuffer, data.AsPointer()); }
     }
-    private static void ClearBuffer (ClearBufferTarget buffer, int drawBuffer, ReadOnlySpan<float> data)
+    private static void ClearBuffer (ClearBufferTargets buffer, int drawBuffer, ReadOnlySpan<float> data)
     {
         unsafe { glClearBufferfv(buffer, drawBuffer, data.AsPointer()); }
     }
@@ -56,7 +56,7 @@ public static unsafe partial class GL
         unsafe
         {
             float* data = stackalloc float[] { r, g, b, a };
-            glClearBufferfv(ClearBufferTarget.Color, drawBuffer, data);
+            glClearBufferfv(ClearBufferTargets.Color, drawBuffer, data);
         }
     }
     public static void ClearBufferColor (int drawBuffer, Vector4 color)
@@ -64,7 +64,7 @@ public static unsafe partial class GL
         unsafe
         {
             float* data = stackalloc float[] { color.X, color.Y, color.Z, color.W };
-            glClearBufferfv(ClearBufferTarget.Color, drawBuffer, data);
+            glClearBufferfv(ClearBufferTargets.Color, drawBuffer, data);
         }
     }
     public static void ClearBufferColor (int drawBuffer, Color color)
@@ -78,20 +78,20 @@ public static unsafe partial class GL
                 Math.Clamp(color.A / 255f, 0f, 1f)
             };
 
-            glClearBufferfv(ClearBufferTarget.Color, drawBuffer, data);
+            glClearBufferfv(ClearBufferTargets.Color, drawBuffer, data);
         }
     }
     public static void ClearBufferDepth (float depth = 0f)
     {
-        unsafe { glClearBufferfv(ClearBufferTarget.Depth, 0, &depth); }
+        unsafe { glClearBufferfv(ClearBufferTargets.Depth, 0, &depth); }
     }
     public static void ClearBufferStencil (int stencil)
     {
-        unsafe { glClearBufferiv(ClearBufferTarget.Stencil, 0, &stencil); }
+        unsafe { glClearBufferiv(ClearBufferTargets.Stencil, 0, &stencil); }
     }
     public static void ClearBufferDepthStencil (float depth, int stencil)
     {
-        unsafe { glClearBufferfi(ClearBufferTarget.DepthStencil, 0, depth, stencil); }
+        unsafe { glClearBufferfi(ClearBufferTargets.DepthStencil, 0, depth, stencil); }
     }
 
     public static void ClearColor (float red, float green, float blue, float alpha)
@@ -121,7 +121,7 @@ public static unsafe partial class GL
         glClearStencil(stencil);
     }
 
-    public static void DrawBuffer (BufferMode mode)
+    public static void DrawBuffer (BufferModes mode)
     {
         glDrawBuffer((uint)mode);
     }
@@ -136,7 +136,7 @@ public static unsafe partial class GL
         glFlush();
     }
 
-    public static void ReadBuffer (BufferMode mode)
+    public static void ReadBuffer (BufferModes mode)
     {
         glReadBuffer((uint)mode);
     }
@@ -146,22 +146,22 @@ public static unsafe partial class GL
         glReadBuffer(colorAttachment);
     }
 
-    public static unsafe void ReadPixels (int x, int y, int width, int height, ReadPixelFormat format, ReadPixelType type, void* data)
+    public static unsafe void ReadPixels (int x, int y, int width, int height, ReadPixelFormats format, ReadPixelTypes type, void* data)
     {
         glReadPixels(x, y, width, height, format, type, data);
     }
 
-    public static unsafe void ReadPixels (int x, int y, int width, int height, ReadPixelFormat format, ReadPixelType type, nint data)
+    public static unsafe void ReadPixels (int x, int y, int width, int height, ReadPixelFormats format, ReadPixelTypes type, nint data)
     {
         glReadPixels(x, y, width, height, format, type, data.ToPointer());
     }
 
-    public static Span<T> ReadPixels<T> (int x, int y, int width, int height, ReadPixelFormat format, ReadPixelType type) where T : unmanaged
+    public static Span<T> ReadPixels<T> (int x, int y, int width, int height, ReadPixelFormats format, ReadPixelTypes type) where T : unmanaged
     {
         int elementCount = format switch
         {
-            ReadPixelFormat.Bgr or ReadPixelFormat.Rgb => 3,
-            ReadPixelFormat.Bgra or ReadPixelFormat.Rgba => 4,
+            ReadPixelFormats.Bgr or ReadPixelFormats.Rgb => 3,
+            ReadPixelFormats.Bgra or ReadPixelFormats.Rgba => 4,
             _ => 1
         };
 

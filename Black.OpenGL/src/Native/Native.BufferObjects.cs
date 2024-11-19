@@ -5,22 +5,22 @@ namespace Black.OpenGL;
 
 internal unsafe partial class Native
 {
-    internal delegate void BindBuffer(BufferTarget target, uint buffer);
+    internal delegate void BindBuffer(BufferTargets target, uint buffer);
     [OpenGL<BindBuffer>] internal static BindBuffer glBindBuffer;
     
-    internal delegate void BindBufferBase(BufferTarget target, uint index, uint buffer);
+    internal delegate void BindBufferBase(BufferTargets target, uint index, uint buffer);
     [OpenGL<BindBufferBase>] internal static BindBufferBase glBindBufferBase;
     
-    internal delegate void BindBufferRange(BufferTarget target, uint index, uint buffer, int offset, int size);
+    internal delegate void BindBufferRange(BufferTargets target, uint index, uint buffer, int offset, int size);
     [OpenGL<BindBufferRange>] internal static BindBufferRange glBindBufferRange;
     
-    internal delegate void BufferData(BufferTarget target, int size, void* data, BufferUsageHint usage);
+    internal delegate void BufferData(BufferTargets target, int size, void* data, BufferUsageHints usage);
     [OpenGL<BufferData>] internal static BufferData glBufferData;
     
-    internal delegate void BufferSubData(BufferTarget target, int offset, int size, void* data);
+    internal delegate void BufferSubData(BufferTargets target, int offset, int size, void* data);
     [OpenGL<BufferSubData>] internal static BufferSubData glBufferSubData;
     
-    internal delegate void CopyBufferSubData(BufferTarget readTarget, BufferTarget writeTarget, int readOffset, int writeOffset, int size);
+    internal delegate void CopyBufferSubData(BufferTargets readTarget, BufferTargets writeTarget, int readOffset, int writeOffset, int size);
     [OpenGL<CopyBufferSubData>] internal static CopyBufferSubData glCopyBufferSubData;
 
     internal delegate void DeleteBuffers(int n, uint* buffers);
@@ -29,13 +29,13 @@ internal unsafe partial class Native
     internal delegate void DisableVertexAttribArray(uint index);
     [OpenGL<DisableVertexAttribArray>] internal static DisableVertexAttribArray glDisableVertexAttribArray;
     
-    internal delegate void DrawArrays(DrawMode mode, int first, int count);
+    internal delegate void DrawArrays(DrawModes mode, int first, int count);
     [OpenGL<DrawArrays>] internal static DrawArrays glDrawArrays;
 
-    internal delegate void DrawElements(DrawMode mode, int count, ElementType type, void* indices);
+    internal delegate void DrawElements(DrawModes mode, int count, ElementTypes type, void* indices);
     [OpenGL<DrawElements>] internal static DrawElements glDrawElements;
     
-    internal delegate void DrawElementsBaseVertex (DrawMode mode, int count, ElementType type, void *indices, int basevertex);
+    internal delegate void DrawElementsBaseVertex (DrawModes mode, int count, ElementTypes type, void *indices, int basevertex);
     [OpenGL<DrawElementsBaseVertex>] internal static DrawElementsBaseVertex glDrawElementsBaseVertex;
 
 
@@ -63,10 +63,10 @@ internal unsafe partial class Native
     internal delegate void GetVertexAttribPointerv(uint index, uint pname, void** pointer);
     [OpenGL<GetVertexAttribPointerv>] internal static GetVertexAttribPointerv glGetVertexAttribPointerv;
 
-    internal delegate void VertexAttribPointer(uint index, int size, AttributeType type, byte normalized, int stride, void* pointer);
+    internal delegate void VertexAttribPointer(uint index, int size, AttributeTypes type, byte normalized, int stride, void* pointer);
     [OpenGL<VertexAttribPointer>] internal static VertexAttribPointer glVertexAttribPointer;
 
-    internal delegate void VertexAttribIPointer(uint index, int size, AttributeTypeI type, int stride, void* pointer);
+    internal delegate void VertexAttribIPointer(uint index, int size, AttributeTypesI type, int stride, void* pointer);
     [OpenGL<VertexAttribIPointer>] internal static VertexAttribIPointer glVertexAttribIPointer;
 }
 

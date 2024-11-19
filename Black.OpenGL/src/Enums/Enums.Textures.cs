@@ -250,7 +250,7 @@ public enum Texture3DMultisampleTargets : uint
     ProxyTexture2DMultisampleArray      = TextureTargets.ProxyTexture2DMultisampleArray,
 }
 
-public enum InternalFormats1D : uint
+public enum Internal1DFormats : uint
 {
     CompressedRed                       = InternalFormats.CompressedRed,
     CompressedRg                        = InternalFormats.CompressedRg,
@@ -296,4 +296,28 @@ public enum TexturePixelFormats : uint
     Bgra                                = PixelFormats.Bgra,
     DepthComponent                      = PixelFormats.DepthComponent,
     DepthStencil                        = PixelFormats.DepthStencil,
+}
+
+public enum TextureMinFilters : uint
+{
+    Nearest                             = 0x2600,
+    Linear                              = 0x2601,
+    NearestMipmapNearest                = 0x2700,
+    LinearMipmapNearest                 = 0x2701,
+    NearestMipmapLinear                 = 0x2702,
+    LinearMipMapLinear                  = 0x2703,
+}
+
+public enum TextureMagFilters : uint
+{
+    Nearest                             = TextureMinFilters.Nearest,
+    Linear                              = TextureMinFilters.Linear
+}
+
+public enum TextureWrapModes : uint
+{
+    ClampToBorder                       = 0x812D,
+    ClampToEdge                         = 0x812F,
+    MirroredRepeat                      = 0x8370,
+    Repeat                              = 0x2901, 
 }

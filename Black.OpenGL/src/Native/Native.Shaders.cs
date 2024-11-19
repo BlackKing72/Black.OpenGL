@@ -15,7 +15,7 @@ internal unsafe partial class Native
     internal delegate uint CreateProgram();
     [OpenGL<CreateProgram>] internal static CreateProgram glCreateProgram;
 
-    internal delegate uint CreateShader(ShaderType shaderType);
+    internal delegate uint CreateShader(ShaderTypes shaderType);
     [OpenGL<CreateShader>] internal static CreateShader glCreateShader;
     
     internal delegate void DeleteProgram(uint program);
@@ -27,10 +27,10 @@ internal unsafe partial class Native
     internal delegate void DetachShader(uint program, uint shader);
     [OpenGL<DetachShader>] internal static DetachShader glDetachShader;
     
-    internal delegate void GetProgramiv(uint program, ProgramParameterName pname, int* @params);
+    internal delegate void GetProgramiv(uint program, ProgramParameterNames pname, int* @params);
     [OpenGL<GetProgramiv>] internal static GetProgramiv glGetProgramiv;
     
-    internal delegate void GetShaderiv(uint shader, ShaderParameterName pname, int* @params);
+    internal delegate void GetShaderiv(uint shader, ShaderParameterNames pname, int* @params);
     [OpenGL<GetShaderiv>] internal static GetShaderiv glGetShaderiv;
     
     internal delegate void GetProgramInfoLog(uint program, int maxLength, int* length, UnmanagedStr infoLog);

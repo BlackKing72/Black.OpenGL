@@ -5,19 +5,19 @@ namespace Black.OpenGL;
 
 internal unsafe partial class Native
 {
-    internal delegate void Clear (ClearMask mask);
+    internal delegate void Clear (ClearMasks mask);
     [OpenGL<Clear>] internal static Clear glClear;
 
-    internal delegate void ClearBufferiv (ClearBufferTarget buffer, int drawBuffer, int* value);
+    internal delegate void ClearBufferiv (ClearBufferTargets buffer, int drawBuffer, int* value);
     [OpenGL<ClearBufferiv>] internal static ClearBufferiv glClearBufferiv;
 
-    internal delegate void ClearBufferuiv (ClearBufferTarget buffer, int drawBuffer, uint* value);
+    internal delegate void ClearBufferuiv (ClearBufferTargets buffer, int drawBuffer, uint* value);
     [OpenGL<ClearBufferuiv>] internal static ClearBufferuiv glClearBufferuiv;
 
-    internal delegate void ClearBufferfv (ClearBufferTarget buffer, int drawBuffer, float* value);
+    internal delegate void ClearBufferfv (ClearBufferTargets buffer, int drawBuffer, float* value);
     [OpenGL<ClearBufferfv>] internal static ClearBufferfv glClearBufferfv;
     
-    internal delegate void ClearBufferfi (ClearBufferTarget buffer, int drawBuffer, float depth, int stencil);
+    internal delegate void ClearBufferfi (ClearBufferTargets buffer, int drawBuffer, float depth, int stencil);
     [OpenGL<ClearBufferfi>] internal static ClearBufferfi glClearBufferfi;
     
     internal delegate void ClearColor (float red, float green, float blue, float alpha);
@@ -41,7 +41,7 @@ internal unsafe partial class Native
     internal delegate void ReadBuffer (uint mode);
     [OpenGL<ReadBuffer>] internal static ReadBuffer glReadBuffer;
     
-    internal delegate void ReadPixels (int x, int y, int width, int height, ReadPixelFormat format, ReadPixelType type, void* data);
+    internal delegate void ReadPixels (int x, int y, int width, int height, ReadPixelFormats format, ReadPixelTypes type, void* data);
     [OpenGL<ReadPixels>] internal static ReadPixels glReadPixels;
 }
 

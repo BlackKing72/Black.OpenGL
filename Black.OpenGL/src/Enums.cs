@@ -2,21 +2,21 @@ namespace Black.OpenGL;
 
 
 
-public enum ClearMask : uint
+public enum ClearMasks : uint
 {
     Color                               = 0x00004000,
     Depth                               = 0x00000100,
     Stencil                             = 0x00000400,
 }
 
-public enum ShaderType : uint
+public enum ShaderTypes : uint
 {
     Vertex                              = 0x8B31,
     Fragment                            = 0x8B30,
     Geometry                            = 0x8DD9,
 }
 
-public enum ShaderParameterName : uint
+public enum ShaderParameterNames : uint
 {
     ShaderType                          = 0x8B4F,
     DeleteStatus                        = 0x8B80,
@@ -25,7 +25,7 @@ public enum ShaderParameterName : uint
     ShaderSourceLength                  = 0x8B88,
 }
 
-public enum ProgramParameterName : uint
+public enum ProgramParameterNames : uint
 {
     DeleteStatus                        = 0x8B80,
     LinkStatus                          = 0x8B82,
@@ -46,7 +46,7 @@ public enum ProgramParameterName : uint
     GeometryOutputType                  = 0x8918,
 }
 
-public enum BufferTarget : uint
+public enum BufferTargets : uint
 {
     Array                               = 0x8892,
     CopyRead                            = 0x8F36,
@@ -62,7 +62,7 @@ public enum BufferTarget : uint
     Index                               = ElementArray
 }
 
-public enum BufferUsageHint
+public enum BufferUsageHints
 {
     StreamDraw                          = 0x88E0,
     StreamRead                          = 0x88E1,
@@ -75,7 +75,7 @@ public enum BufferUsageHint
     DynamicCopy                         = 0x88EA,
 }
 
-public enum AttributeType : uint 
+public enum AttributeTypes : uint 
 {
     Byte                                = 0x1400,
     UByte                               = 0x1401,
@@ -100,7 +100,7 @@ public enum AttributeType : uint
     F64                                 = Double
 }
 
-public enum AttributeTypeI : uint 
+public enum AttributeTypesI : uint 
 {
     Byte                                = 0x1400,
     UByte                               = 0x1401,
@@ -117,7 +117,7 @@ public enum AttributeTypeI : uint
     U32                                 = UInt,
 }
 
-public enum DrawMode : uint 
+public enum DrawModes : uint 
 {
     Points                              = 0x0000,
     Lines                               = 0x0001,
@@ -132,18 +132,18 @@ public enum DrawMode : uint
     TriangleStripAdjacency              = 0x000D,
 }
 
-public enum ElementType : uint
+public enum ElementTypes : uint
 {
-    UByte               = AttributeTypeI.UByte,
-    UShort              = AttributeTypeI.UShort,
-    UInt                = AttributeTypeI.UInt,
+    UByte               = AttributeTypesI.UByte,
+    UShort              = AttributeTypesI.UShort,
+    UInt                = AttributeTypesI.UInt,
 
     U8                  = UByte,
     U16                 = UShort,    
     U32                 = UInt,
 }
 
-public enum ClearBufferTarget : uint
+public enum ClearBufferTargets : uint
 {
     Color                               = 0x1800,
     Depth                               = 0x1801,
@@ -157,7 +157,7 @@ public enum ClearBufferTarget : uint
     FrontAndBack                        = 0x0408,
 }
 
-public enum BufferMode : uint
+public enum BufferModes : uint
 {
     None                                = 0x0000,
     FrontLeft                           = 0x0400,
@@ -171,7 +171,7 @@ public enum BufferMode : uint
     FrontAndBack                        = 0x0408
 }
 
-public enum ReadPixelFormat : uint
+public enum ReadPixelFormats : uint
 {
     StencilIndex                        = 0x1901,
     DepthComponent                      = 0x1902,
@@ -185,7 +185,7 @@ public enum ReadPixelFormat : uint
     Bgra                                = 0x80E1,
 }
 
-public enum ReadPixelType : uint
+public enum ReadPixelTypes : uint
 {
     SByte                               = PixelTypes.SByte,
     UByte                               = PixelTypes.UByte,

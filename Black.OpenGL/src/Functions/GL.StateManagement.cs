@@ -310,5 +310,5 @@ public static unsafe partial class GL
     public static void Viewport(Rectangle rect)
     {
         glViewport(rect.X, rect.Y, rect.Width, rect.Height);
-    }  
+    }
 }

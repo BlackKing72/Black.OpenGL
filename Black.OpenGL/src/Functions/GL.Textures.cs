@@ -252,12 +252,12 @@ public static unsafe partial class GL
         glTexBuffer(target, internalFormat, buffer);
     }
 
-    public static void TexImage1D(Texture1DTargets target, int level, InternalFormats1D internalFormat, int width, int border, TexturePixelFormats format, PixelTypes type, void* data)
+    public static void TexImage1D(Texture1DTargets target, int level, Internal1DFormats internalFormat, int width, int border, TexturePixelFormats format, PixelTypes type, void* data)
     {
         glTexImage1D(target, level, internalFormat, width, border, format, type, data);
     }
 
-    public static void TexImage1D<T>(Texture1DTargets target, int level, InternalFormats1D internalFormat, int width, int border, TexturePixelFormats format, PixelTypes type, ReadOnlySpan<T> data) where T : unmanaged
+    public static void TexImage1D<T>(Texture1DTargets target, int level, Internal1DFormats internalFormat, int width, int border, TexturePixelFormats format, PixelTypes type, ReadOnlySpan<T> data) where T : unmanaged
     {
         glTexImage1D(target, level, internalFormat, width, border, format, type, (void*)data.AsPointer());
     }
@@ -306,6 +306,55 @@ public static unsafe partial class GL
     public static void TexParameter(TextureParameterTargets target, TextureParameters parameterName, int parameter)
     {
         glTexParameteri(target, parameterName, parameter);
+    }
+
+    public static void TexParameter(TextureParameterTargets target, TextureParameters parameterName, TextureMinFilters parameter)
+    {
+        if (parameterName is not TextureParameters.TextureMinFilter)
+            throw new ArgumentException("Expected a value for {parameterName}, received a value for Texture Min Filter", nameof(parameter));
+
+        glTexParameteri(target, parameterName, (int)parameter);
+    }
+
+    public static void TexParameter(TextureParameterTargets target, TextureParameters parameterName, TextureMagFilters parameter)
+    {
+        if (parameterName is not TextureParameters.TextureMagFilter)
+            throw new ArgumentException("Expected a value for {parameterName}, received a value for Texture Mag Filter", nameof(parameter));
+            
+        glTexParameteri(target, parameterName, (int)parameter);
+    }
+
+    public static void TexParameter(TextureParameterTargets target, TextureParameters parameterName, TextureWrapModes parameter)
+    {
+        if (parameterName is not TextureParameters.TextureWrapS or TextureParameters.TextureWrapT or TextureParameters.TextureWrapR)
+            throw new ArgumentException("Expected a value for {parameterName}, received a value for Texture Wrap", nameof(parameter));
+            
+        glTexParameteri(target, parameterName, (int)parameter);
+    }
+
+    public static void TexMinFilter(TextureParameterTargets target, TextureMinFilters parameter)
+    {
+        glTexParameteri(target, TextureParameters.TextureMinFilter, (int)parameter);
+    }
+
+    public static void TexMagFilter(TextureParameterTargets target, TextureMagFilters parameter)
+    {
+        glTexParameteri(target, TextureParameters.TextureMagFilter, (int)parameter);
+    }
+
+    public static void TexWrapS(TextureParameterTargets target, TextureWrapModes parameter)
+    {
+        glTexParameteri(target, TextureParameters.TextureWrapS, (int)parameter);
+    }
+
+    public static void TexWrapT(TextureParameterTargets target, TextureWrapModes parameter)
+    {
+        glTexParameteri(target, TextureParameters.TextureWrapT, (int)parameter);
+    }
+
+    public static void TexWrapR(TextureParameterTargets target, TextureWrapModes parameter)
+    {
+        glTexParameteri(target, TextureParameters.TextureWrapR, (int)parameter);
     }
 
     public static void TexSubImage1D(Texture1DTargets target, int level, int xoffset, int width, TexturePixelFormats format, PixelTypes type, void* data)
