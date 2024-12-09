@@ -4,6 +4,7 @@ using System.Drawing;
 using System.Numerics;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
+using System.Text;
 using Black.Unmanaged;
 using static Black.OpenGL.Native;
 
@@ -12,6 +13,27 @@ public static unsafe partial class GL
     public static void AttachShader (uint program, uint shader)
     {
         glAttachShader(program, shader);
+    }
+
+    public static void BindAttribLocation (uint program, uint index, string name)
+    {
+        using var unmanagedName = new UnmanagedStr(name);
+        glBindAttribLocation(program, index, unmanagedName.Pointer);
+    }
+
+    [OverloadResolutionPriority(1)]
+    public static void BindAttribLocation (uint program, uint index, ReadOnlySpan<char> name)
+    {
+        int byteLen = Encoding.UTF8.GetByteCount(name);
+        Span<byte> bytes = stackalloc byte[byteLen];
+        Encoding.UTF8.GetBytes(name, bytes);
+
+        BindAttribLocation(program, index, bytes);
+    }
+
+    public static void BindAttribLocation (uint program, uint index, ReadOnlySpan<byte> name)
+    {
+        glBindAttribLocation(program, index, name.AsPointer());
     }
 
     public static void CompileShader(uint shader)
@@ -116,6 +138,21 @@ public static unsafe partial class GL
         return glGetAttribLocation(program, unmanagedName);
     }
 
+    public static uint GetUniformBlockIndex(uint program, ReadOnlySpan<byte> name)
+    {
+        byte* unmanagedName = (byte*)Unsafe.AsPointer(ref MemoryMarshal.GetReference(name));
+        return glGetUniformBlockIndex(program, unmanagedName);
+    }
+
+    public static uint GetUniformBlockIndex(uint program, ReadOnlySpan<char> name)
+    {
+        int byteLen = Encoding.UTF8.GetByteCount(name);
+        Span<byte> bytes = stackalloc byte[byteLen];
+        Encoding.UTF8.GetBytes(name, bytes);
+
+        return GetUniformBlockIndex(program, bytes);
+    }
+
     public static int GetUniformLocation(uint program, string name)
     {
         using var unmanagedName = new UnmanagedStr(name);
@@ -205,10 +242,14 @@ public static unsafe partial class GL
         glUniform4i(location, v0, v1, v2, v3);
     }
 
-
     public static void UniformMatrix (int location, bool transpose, Matrix4x4 matrix)
     {
         glUniformMatrix4fv(location, 1, transpose.ToGLBoolean(), &matrix.M11);
+    }
+
+    public static void UniformBlockBinding(uint program, uint uniformBlockIndex, uint uniformBlockBinding)
+    {
+        glUniformBlockBinding(program, uniformBlockIndex, uniformBlockBinding);
     }
 
 }
