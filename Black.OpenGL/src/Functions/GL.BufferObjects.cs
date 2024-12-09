@@ -13,7 +13,7 @@ public static unsafe partial class GL
 
     public static void BindBufferBase(BufferTargets target, uint index, uint buffer)
     {
-        if (target is not BufferTargets.TransformFeedback or BufferTargets.Uniform)
+        if (target is not (BufferTargets.TransformFeedback or BufferTargets.Uniform))
             throw new ArgumentOutOfRangeException(nameof(target), $"Target must be either Transform Feedback or a Uniform buffer");
 
         glBindBufferBase(target, index, buffer);
@@ -21,7 +21,7 @@ public static unsafe partial class GL
 
     public static void BindBufferRange(BufferTargets target, uint index, uint buffer, int offset, int size)
     {
-        if (target is not BufferTargets.TransformFeedback or BufferTargets.Uniform)
+        if (target is not (BufferTargets.TransformFeedback or BufferTargets.Uniform))
             throw new ArgumentOutOfRangeException(nameof(target), $"Target must be either Transform Feedback or a Uniform buffer");
 
         glBindBufferRange(target, index, buffer, offset, size);
