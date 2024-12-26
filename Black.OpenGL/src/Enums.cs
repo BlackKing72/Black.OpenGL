@@ -216,7 +216,7 @@ public enum ReadPixelTypes : uint
 public enum PixelTypes : uint
 {
     SByte                               = 0x1400,
-    UByte                               = 0x1401,
+    UByte                               = Constants.glUnsignedByte,
     Short                               = 0x1402,
     UShort                              = 0x1403,
     Int                                 = 0x1404,
@@ -241,28 +241,28 @@ public enum PixelTypes : uint
     Float_32_UInt_248_Rev               = 0x8DAD,
 }
 
-public enum PixelFormats : uint
-{
-    StencilIndex                        = 0x1901, 
-    DepthComponent                      = 0x1902, 
-    DepthStencil                        = 0x84F9, 
-    Red                                 = 0x1903, 
-    Green                               = 0x1904, 
-    Blue                                = 0x1905, 
-    Rg                                  = 0x8227, 
-    Rgb                                 = 0x1907, 
-    Rgba                                = 0x1908, 
-    Bgr                                 = 0x80E0, 
-    Bgra                                = 0x80E1, 
-    RedInteger                          = 0x8D94, 
-    GreenInteger                        = 0x8D95, 
-    BlueInteger                         = 0x8D96, 
-    RgInteger                           = 0x8228, 
-    RgbInteger                          = 0x8D98, 
-    RgbaInteger                         = 0x8D99, 
-    BgrInteger                          = 0x8D9A, 
-    BgraInteger                         = 0x8D9B,
-}
+// public enum PixelFormats : uint
+// {
+//     StencilIndex                        = 0x1901, 
+//     DepthComponent                      = 0x1902, 
+//     DepthStencil                        = 0x84F9, 
+//     Red                                 = 0x1903, 
+//     Green                               = 0x1904, 
+//     Blue                                = 0x1905, 
+//     Rg                                  = 0x8227, 
+//     Rgb                                 = 0x1907, 
+//     Rgba                                = 0x1908, 
+//     Bgr                                 = 0x80E0, 
+//     Bgra                                = 0x80E1, 
+//     RedInteger                          = 0x8D94, 
+//     GreenInteger                        = 0x8D95, 
+//     BlueInteger                         = 0x8D96, 
+//     RgInteger                           = 0x8228, 
+//     RgbInteger                          = 0x8D98, 
+//     RgbaInteger                         = 0x8D99, 
+//     BgrInteger                          = 0x8D9A, 
+//     BgraInteger                         = 0x8D9B,
+// }
 
 public enum GetAtribParameters : uint
 {

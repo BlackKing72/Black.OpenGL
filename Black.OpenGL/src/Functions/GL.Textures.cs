@@ -262,6 +262,11 @@ public static unsafe partial class GL
         glTexImage1D(target, level, internalFormat, width, border, format, type, (void*)data.AsPointer());
     }
 
+    public static void TexImage2DAlt(Texture2DTargets target, int level, InternalPixelFormats internalFormat, int width, int height, int border, PixelFormats format, PixelTypes type, nint data)
+    {
+        glTexImage2D(target, level, (SizedInternalFormats)internalFormat, width, height, border, (TexturePixelFormats)format, type, (void*)data);
+    }
+
     public static void TexImage2D(Texture2DTargets target, int level, SizedInternalFormats internalFormat, int width, int height, int border, TexturePixelFormats format, PixelTypes type, void* data)
     {
         glTexImage2D(target, level, internalFormat, width, height, border, format, type, data);
@@ -326,7 +331,7 @@ public static unsafe partial class GL
 
     public static void TexParameter(TextureParameterTargets target, TextureParameters parameterName, TextureWrapModes parameter)
     {
-        if (parameterName is not TextureParameters.TextureWrapS or TextureParameters.TextureWrapT or TextureParameters.TextureWrapR)
+        if (parameterName is not (TextureParameters.TextureWrapS or TextureParameters.TextureWrapT or TextureParameters.TextureWrapR))
             throw new ArgumentException("Expected a value for {parameterName}, received a value for Texture Wrap", nameof(parameter));
             
         glTexParameteri(target, parameterName, (int)parameter);

@@ -73,7 +73,10 @@ public enum InternalFormats : uint
     DepthComponent                      = 0x1902, 
     DepthComponent16                    = 0x81A5, 
     DepthComponent24                    = 0x81A6, 
-    DepthComponent32                    = 0x81A7, 
+    DepthComponent32                    = 0x81A7,
+    DepthStencil                        = Constants.glDepthStencil, 
+    Depth24Stencil8                     = Constants.glDepth24Stencil8,
+    Depth32FStencil8                    = Constants.glDepth32fStencil8,
     Red                                 = 0x1903, 
     Rg                                  = 0x8227, 
     Rgb                                 = 0x1907, 
@@ -215,7 +218,7 @@ public enum Texture1DTargets : uint
 
 public enum Texture2DTargets : uint
 {
-    Texture2D                           = TextureTargets.Texture2D, 
+    Texture2D                           = Constants.glTexture2D, 
     ProxyTexture2D                      = TextureTargets.ProxyTexture2D, 
     Texture1DArray                      = TextureTargets.Texture1DArray, 
     ProxyTexture1DArray                 = TextureTargets.ProxyTexture1DArray, 
@@ -320,4 +323,14 @@ public enum TextureWrapModes : uint
     ClampToEdge                         = 0x812F,
     MirroredRepeat                      = 0x8370,
     Repeat                              = 0x2901, 
+}
+
+public enum CubeMapFaces : uint
+{
+    PositiveX                    = Constants.glTextureCubeMapPositiveX, 
+    NegativeX                    = Constants.glTextureCubeMapNegativeX, 
+    PositiveY                    = Constants.glTextureCubeMapPositiveY, 
+    NegativeY                    = Constants.glTextureCubeMapNegativeY, 
+    PositiveZ                    = Constants.glTextureCubeMapPositiveZ, 
+    NegativeZ                    = Constants.glTextureCubeMapNegativeZ, 
 }
