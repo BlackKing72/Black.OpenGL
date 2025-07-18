@@ -79,10 +79,10 @@ internal unsafe sealed class LinuxGetProcAddress : IGetProcAddress
     public nint GetProcAddress(string procName)
     {
         using var unmanagedProcName = new UnmanagedStr(procName);
-        return glxGetProcAddress(unmanagedProcName);
+        return glXGetProcAddress(unmanagedProcName);
 
         [DllImport(Library.Name)]
-        static extern unsafe nint glxGetProcAddress(UnmanagedStr procName);
+        static extern unsafe nint glXGetProcAddress(UnmanagedStr procName);
     }
 }
 

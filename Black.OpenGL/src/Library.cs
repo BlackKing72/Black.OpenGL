@@ -20,10 +20,10 @@ internal class Library
                 return NativeLibrary.Load("opengl32.dll", assembly, searchPath);
 
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
-                return NativeLibrary.Load("libGL.so.1", assembly, searchPath);
+                return NativeLibrary.Load("libGL.so", assembly, searchPath);
 
             if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
-                return NativeLibrary.Load("libglfw.3", assembly, searchPath);
+                return NativeLibrary.Load("OpenGL.framework", assembly, searchPath);
         }
 
         return 0;
