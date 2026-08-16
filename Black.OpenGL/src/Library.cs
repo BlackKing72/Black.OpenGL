@@ -14,18 +14,18 @@ internal class Library
 
     private static IntPtr LibraryImporterResolver(string libraryName, Assembly assembly, DllImportSearchPath? searchPath)
     {
-        if (libraryName == Name)
+        if (libraryName == Library.Name)
         {
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
                 return NativeLibrary.Load("opengl32.dll", assembly, searchPath);
 
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
-                return NativeLibrary.Load("libGL.so", assembly, searchPath);
+                return NativeLibrary.Load("GL", assembly, searchPath);
 
             if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
                 return NativeLibrary.Load("OpenGL.framework", assembly, searchPath);
         }
 
-        return 0;
+        return nint.Zero;
     }
 }

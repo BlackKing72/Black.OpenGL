@@ -3,27 +3,15 @@ namespace Black.OpenGL;
 using System.Runtime.InteropServices;
 using Black.Unmanaged;
 
-public sealed class LoadProcedureException : Exception
+public delegate nint GetProcAddressHandler(string name);
+public sealed class LoadProcedureException(string procedureName)
+    : Exception($"Failed to get procedure adreess for '{procedureName}'.");
+
+public class Loader(GetProcAddressHandler? customHandler = null)
 {
-    public string ProcedureName { get; private set; }
+    private readonly IGetProcAddress loader = GetProcLoader(customHandler);
 
-    public LoadProcedureException (string procedureName) 
-        : base($"Failed to get procedure adreess for '{procedureName}'.")
-    {
-        ProcedureName = procedureName;
-    }
-}
-
-public static class Loader
-{
-    private static readonly IGetProcAddress loader;
-
-    static Loader()
-    {
-        loader = GetProcLoader();
-    }
-
-    public static T LoadFunction<T>(string name) where T : Delegate
+    public T LoadFunction<T>(string name) where T : Delegate
     {
         nint address = loader.GetProcAddress(name);
 
@@ -36,14 +24,21 @@ public static class Loader
     public static bool AddressIsValid(nint address)
     {
         // From: https://www.khronos.org/opengl/wiki/Load_OpenGL_Functions
-        // The MSDN documentation says that wglGetProcAddress returns NULL (0) on failure, some 
+        // The MSDN documentation says that wglGetProcAddress returns NULL (0) on failure, some
         // implementations will return other values. 1, 2, and 3 are used, as well as -1.
 
-        return address is not 0 or 1 or 2 or 3 or -1;
+        return address switch
+        {
+            0 or 1 or 2 or 3 or -1 => false,
+            _ => true
+        };
     }
 
-    private static IGetProcAddress GetProcLoader()
+    private static IGetProcAddress GetProcLoader(GetProcAddressHandler? customHandler)
     {
+        if (customHandler is not null)
+            return new UserGetProcAddress(customHandler);
+
         if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             return new WindowsGetProcAddress();
 
@@ -53,7 +48,7 @@ public static class Loader
         else if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
             return new OSXGetProcAddress();
 
-        throw new PlatformNotSupportedException("Only Windows, Linux and Osx are supported");
+        throw new PlatformNotSupportedException("Only Windows, Linux and Osx are supported. You can provide a custom handler for your platform.");
     }
 }
 
@@ -62,56 +57,60 @@ internal interface IGetProcAddress
     public nint GetProcAddress(string procName);
 }
 
-internal unsafe sealed class WindowsGetProcAddress : IGetProcAddress
+internal unsafe sealed partial class UserGetProcAddress(GetProcAddressHandler customHandler) : IGetProcAddress
 {
     public nint GetProcAddress(string procName)
     {
-        using var unmanagedProcName = new UnmanagedStr(procName);
-        return wglGetProcAddress(unmanagedProcName);
-
-        [DllImport(Library.Name)]
-        static extern nint wglGetProcAddress(byte* lpszProc);
+        return customHandler(procName);
     }
 }
 
-internal unsafe sealed class LinuxGetProcAddress : IGetProcAddress
+internal unsafe sealed partial class WindowsGetProcAddress : IGetProcAddress
 {
+    [LibraryImport("opengl32", StringMarshalling = StringMarshalling.Utf8)]
+    private static partial nint wglGetProcAddress(string lpszProc);
+
     public nint GetProcAddress(string procName)
     {
-        using var unmanagedProcName = new UnmanagedStr(procName);
-        return glXGetProcAddress(unmanagedProcName);
-
-        [DllImport(Library.Name)]
-        static extern unsafe nint glXGetProcAddress(UnmanagedStr procName);
+        return wglGetProcAddress(procName);
     }
 }
 
-internal unsafe sealed class OSXGetProcAddress : IGetProcAddress
+internal unsafe sealed partial class LinuxGetProcAddress : IGetProcAddress
 {
-    private const int False = 0;
+    [LibraryImport("libGL", StringMarshalling = StringMarshalling.Utf8)]
+    private static partial nint glXGetProcAddress(string procName);
 
     public nint GetProcAddress(string procName)
     {
-        using var unmanagedProcName = new UnmanagedStr(procName);
+        return glXGetProcAddress(procName);
+    }
+}
 
-        if (NSIsSymbolNameDefined(unmanagedProcName) == False)
+internal unsafe sealed partial class OSXGetProcAddress : IGetProcAddress
+{
+    [return: MarshalAs(UnmanagedType.Bool)]
+    [LibraryImport("OpenGL.framework", StringMarshalling = StringMarshalling.Utf8)]
+    private static partial bool NSIsSymbolNameDefined(string s);
+
+    [LibraryImport("OpenGL.framework", StringMarshalling = StringMarshalling.Utf8)]
+    private static partial nint NSLookupAndBindSymbol(string s);
+
+    [LibraryImport("OpenGL.framework")]
+    private static partial nint NSAddressOfSymbol(nint symbol);
+
+    public nint GetProcAddress(string procName)
+    {
+        if (!NSIsSymbolNameDefined(procName))
             return nint.Zero;
 
-        nint symbol = NSLookupAndBindSymbol(unmanagedProcName);
+        nint symbol = NSLookupAndBindSymbol(procName);
 
         if (symbol != nint.Zero)
             symbol = NSAddressOfSymbol(symbol);
 
         return symbol;
 
-        [DllImport(Library.Name)]
-        static extern unsafe int NSIsSymbolNameDefined(UnmanagedStr s);
 
-        [DllImport(Library.Name)]
-        static extern unsafe nint NSLookupAndBindSymbol(UnmanagedStr s);
-
-        [DllImport(Library.Name)]
-        static extern unsafe nint NSAddressOfSymbol(nint symbol);
     }
 }
-
