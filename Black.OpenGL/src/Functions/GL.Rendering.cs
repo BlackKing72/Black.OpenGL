@@ -40,15 +40,15 @@ public static unsafe partial class GL
 
     private static void ClearBuffer (ClearBufferTargets buffer, int drawBuffer, ReadOnlySpan<int> data)
     {
-        glClearBufferiv(buffer, drawBuffer, data.AsPointer());
+        glClearBufferiv(buffer, drawBuffer, data.UnsafeAsPointer());
     }
     private static void ClearBuffer (ClearBufferTargets buffer, int drawBuffer, ReadOnlySpan<uint> data)
     {
-        unsafe { glClearBufferuiv(buffer, drawBuffer, data.AsPointer()); }
+        unsafe { glClearBufferuiv(buffer, drawBuffer, data.UnsafeAsPointer()); }
     }
     private static void ClearBuffer (ClearBufferTargets buffer, int drawBuffer, ReadOnlySpan<float> data)
     {
-        unsafe { glClearBufferfv(buffer, drawBuffer, data.AsPointer()); }
+        unsafe { glClearBufferfv(buffer, drawBuffer, data.UnsafeAsPointer()); }
     }
 
     public static void ClearBufferColor (int drawBuffer, float r, float g, float b, float a)
@@ -105,9 +105,9 @@ public static unsafe partial class GL
     public static void ClearColor (Color color)
     {
         glClearColor(
-            Math.Clamp(color.R / 255f, 0f, 1f), 
-            Math.Clamp(color.G / 255f, 0f, 1f), 
-            Math.Clamp(color.B / 255f, 0f, 1f), 
+            Math.Clamp(color.R / 255f, 0f, 1f),
+            Math.Clamp(color.G / 255f, 0f, 1f),
+            Math.Clamp(color.B / 255f, 0f, 1f),
             Math.Clamp(color.A / 255f, 0f, 1f));
     }
 
@@ -166,7 +166,7 @@ public static unsafe partial class GL
         };
 
         Span<T> pixels = new T[width * height * elementCount];
-        unsafe { glReadPixels(x, y, width, height, format, type, pixels.AsPointer()); }
+        unsafe { glReadPixels(x, y, width, height, format, type, pixels.UnsafeAsPointer()); }
 
         return pixels;
     }

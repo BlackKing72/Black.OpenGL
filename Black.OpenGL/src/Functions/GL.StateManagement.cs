@@ -21,7 +21,7 @@ public static unsafe partial class GL
     {
         glBlendEquationSeparate(modeRGB, modeAlpha);
     }
-        
+
     public static void BlendFunc (BlendFactors sfactor, BlendFactors dfactor)
     {
         glBlendFunc(sfactor, dfactor);
@@ -30,7 +30,7 @@ public static unsafe partial class GL
     public static void BlendFuncSeparate (BlendFactors srcRGB, BlendFactors dstRGB, BlendFactors srcAlpha, BlendFactors dstAlpha)
     {
         glBlendFuncSeparate(srcRGB, dstRGB, srcAlpha, dstAlpha);
-    } 
+    }
 
     public static void ClampColor (bool clamp)
     {
@@ -87,7 +87,7 @@ public static unsafe partial class GL
     {
         glEnablei(cap, index);
     }
-    
+
     public static void FrontFace (FrontFaceModes mode)
     {
         glFrontFace(mode);
@@ -123,7 +123,7 @@ public static unsafe partial class GL
 
     public static void GetInteger (GetParameterNames parameterName, Span<int> data)
     {
-        glGetIntegerv(parameterName, data.AsPointer());
+        glGetIntegerv(parameterName, data.UnsafeAsPointer());
     }
 
     public static long GetInteger64 (GetParameterNames parameterName)
@@ -135,17 +135,17 @@ public static unsafe partial class GL
 
     public static void GetBoolean (GetParameterNames parameterName, uint index, Span<bool> data)
     {
-        glGetBooleani_v(parameterName, index, (byte*)data.AsPointer());
+        glGetBooleani_v(parameterName, index, (byte*)data.UnsafeAsPointer());
     }
 
     public static void GetInteger (GetParameterNames parameterName, uint index, Span<int> data)
     {
-        glGetIntegeri_v(parameterName, index, data.AsPointer());
+        glGetIntegeri_v(parameterName, index, data.UnsafeAsPointer());
     }
 
     public static void GetInteger64 (GetParameterNames parameterName, uint index, Span<long> data)
     {
-        glGetInteger64i_v(parameterName, index, data.AsPointer());
+        glGetInteger64i_v(parameterName, index, data.UnsafeAsPointer());
     }
 
     public static ErrorFlags GetError ()
@@ -158,7 +158,7 @@ public static unsafe partial class GL
         while (GetError() != ErrorFlags.NoError);
     }
 
-    public static void CheckErrors (Action function, 
+    public static void CheckErrors (Action function,
         [CallerFilePath]string file = "",
         [CallerMemberName]string member = "",
         [CallerArgumentExpression(nameof(function))]string expr = "",
@@ -182,17 +182,17 @@ public static unsafe partial class GL
     {
         return glIsEnabled(cap);
     }
-    
+
     public static bool IsEnabled (Capabilities cap, uint index)
     {
         return glIsEnabledi(cap, index);
     }
-    
+
     public static void LineWidth (float width)
     {
         glLineWidth(width);
     }
-    
+
     public static void LogicOp (LogicOperations opcode)
     {
         glLogicOp(opcode);
@@ -230,12 +230,12 @@ public static unsafe partial class GL
 
     public static void PointParameters (PointParameterNames parameterName, ReadOnlySpan<float> values)
     {
-        glPointParameterfv(parameterName, values.AsPointer());
+        glPointParameterfv(parameterName, values.UnsafeAsPointer());
     }
 
     public static void PointParameters (PointParameterNames parameterName, ReadOnlySpan<int> values)
     {
-        glPointParameteriv(parameterName, values.AsPointer());
+        glPointParameteriv(parameterName, values.UnsafeAsPointer());
     }
 
     public static void PointSize (float size)

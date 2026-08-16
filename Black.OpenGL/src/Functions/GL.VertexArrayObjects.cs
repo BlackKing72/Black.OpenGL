@@ -17,7 +17,7 @@ public static unsafe partial class GL
 
     public static void DeleteVertexArrays(ReadOnlySpan<uint> vertexArrays)
     {
-        glDeleteVertexArrays(vertexArrays.Length, vertexArrays.AsPointer());
+        glDeleteVertexArrays(vertexArrays.Length, vertexArrays.UnsafeAsPointer());
     }
 
     public static uint GenVertexArray()
@@ -30,7 +30,7 @@ public static unsafe partial class GL
     public static uint[] GenVertexArrays(int count)
     {
         uint[] vertexArrays = new uint[count];
-        glGenVertexArrays(count, vertexArrays.AsPointer());
+        glGenVertexArrays(count, vertexArrays.UnsafeAsPointer());
         return vertexArrays;
     }
 

@@ -24,7 +24,7 @@ public static unsafe partial class GL
 
     public static void CompressedTexImage1D(Compressed1DTargets target, int level, CompressedInternalFormats internalformat, int width, ReadOnlySpan<byte> data)
     {
-        CompressedTexImage1D(target, level, internalformat, width, data.Length, data.AsPointer());
+        CompressedTexImage1D(target, level, internalformat, width, data.Length, data.UnsafeAsPointer());
     }
 
     public static void CompressedTexImage2D(Compressed2DTargets target, int level, CompressedInternalFormats internalformat, int width, int height, int imageSize, void* data)
@@ -34,7 +34,7 @@ public static unsafe partial class GL
 
     public static void CompressedTexImage2D(Compressed2DTargets target, int level, CompressedInternalFormats internalformat, int width, int height, ReadOnlySpan<byte> data)
     {
-        CompressedTexImage2D(target, level, internalformat, width, height, data.Length, data.AsPointer());
+        CompressedTexImage2D(target, level, internalformat, width, height, data.Length, data.UnsafeAsPointer());
     }
 
     public static void CompressedTexImage3D(Compressed3DTargets target, int level, CompressedInternalFormats internalformat, int width, int height, int depth, int imageSize, void* data)
@@ -44,7 +44,7 @@ public static unsafe partial class GL
 
     public static void CompressedTexImage3D(Compressed3DTargets target, int level, CompressedInternalFormats internalformat, int width, int height, int depth, ReadOnlySpan<byte> data)
     {
-        CompressedTexImage3D(target, level, internalformat, width, height, depth, data.Length, data.AsPointer());
+        CompressedTexImage3D(target, level, internalformat, width, height, depth, data.Length, data.UnsafeAsPointer());
     }
 
     public static void CompressedTexSubImage1D(Compressed1DTargets target, int level, int xoffset, int width, CompressedInternalFormats format, int imageSize, void* data)
@@ -54,7 +54,7 @@ public static unsafe partial class GL
 
     public static void CompressedTexSubImage1D(Compressed1DTargets target, int level, int xoffset, int width, CompressedInternalFormats format, ReadOnlySpan<byte> data)
     {
-        CompressedTexSubImage1D(target, level, xoffset, width, format, data.Length, data.AsPointer());
+        CompressedTexSubImage1D(target, level, xoffset, width, format, data.Length, data.UnsafeAsPointer());
     }
 
     public static void CompressedTexSubImage2D(Compressed2DTargets target, int level, int xoffset, int yoffset, int width, int height, CompressedInternalFormats format, int imageSize, void* data)
@@ -64,7 +64,7 @@ public static unsafe partial class GL
 
     public static void CompressedTexSubImage2D(Compressed2DTargets target, int level, int xoffset, int yoffset, int width, int height, CompressedInternalFormats format, ReadOnlySpan<byte> data)
     {
-        CompressedTexSubImage2D(target, level, xoffset, yoffset, width, height, format, data.Length, data.AsPointer());
+        CompressedTexSubImage2D(target, level, xoffset, yoffset, width, height, format, data.Length, data.UnsafeAsPointer());
     }
 
     public static void CompressedTexSubImage3D(Compressed3DTargets target, int level, int xoffset, int yoffset, int zoffset, int width, int height, int depth, CompressedInternalFormats format, int imageSize, void* data)
@@ -74,7 +74,7 @@ public static unsafe partial class GL
 
     public static void CompressedTexSubImage3D(Compressed3DTargets target, int level, int xoffset, int yoffset, int zoffset, int width, int height, int depth, CompressedInternalFormats format, ReadOnlySpan<byte> data)
     {
-        CompressedTexSubImage3D(target, level, xoffset, yoffset, zoffset, width, height, depth, format, data.Length, data.AsPointer());
+        CompressedTexSubImage3D(target, level, xoffset, yoffset, zoffset, width, height, depth, format, data.Length, data.UnsafeAsPointer());
     }
 
     public static void CopyTexImage1D(int level, InternalFormats internalformat, int x, int y, int width)
@@ -109,7 +109,7 @@ public static unsafe partial class GL
 
     public static void DeleteTextures(ReadOnlySpan<uint> textures)
     {
-        glDeleteTextures(textures.Length, textures.AsPointer());
+        glDeleteTextures(textures.Length, textures.UnsafeAsPointer());
     }
 
     public static uint GenTexture()
@@ -122,7 +122,7 @@ public static unsafe partial class GL
     public static ReadOnlySpan<uint> GenTextures(int count)
     {
         Span<uint> result = new uint[count];
-        glGenTextures(count, result.AsPointer());
+        glGenTextures(count, result.UnsafeAsPointer());
         return result;
     }
 
@@ -133,7 +133,7 @@ public static unsafe partial class GL
 
     public static void GetCompressedTexImage(GetCompressedTexTargets target, int level, Span<byte> data)
     {
-        glGetCompressedTexImage(target, level, data.AsPointer());
+        glGetCompressedTexImage(target, level, data.UnsafeAsPointer());
     }
 
     public static ReadOnlySpan<byte> GetCompressedTexImage(GetCompressedTexTargets target, int level)
@@ -145,7 +145,7 @@ public static unsafe partial class GL
             out int textureSize);
 
         ReadOnlySpan<byte> compressedTexture = new byte[textureSize];
-        glGetCompressedTexImage(target, level, compressedTexture.AsPointer());
+        glGetCompressedTexImage(target, level, compressedTexture.UnsafeAsPointer());
         return compressedTexture;
     }
 
@@ -156,7 +156,7 @@ public static unsafe partial class GL
 
     public static void GetTexImage(TextureParameterTargets target, int level, PixelFormats format, PixelTypes type, Span<byte> img)
     {
-        glGetTexImage(target, level, format, type, img.AsPointer());
+        glGetTexImage(target, level, format, type, img.UnsafeAsPointer());
     }
 
     public static ReadOnlySpan<byte> GetTexImage(TextureParameterTargets target, int level, PixelFormats format, PixelTypes type)
@@ -204,7 +204,7 @@ public static unsafe partial class GL
         var textureSize = paddedRowSize * height * depth;
         ReadOnlySpan<byte> texture = new byte[textureSize];
 
-        glGetTexImage(target, level, format, type, texture.AsPointer());
+        glGetTexImage(target, level, format, type, texture.UnsafeAsPointer());
         return texture;
     }
 
@@ -224,22 +224,22 @@ public static unsafe partial class GL
 
     public static void GetTexParameter(TextureParameterTargets target, TextureParameters pname, Span<float> values)
     {
-        glGetTexParameterfv(target, pname, values.AsPointer());
+        glGetTexParameterfv(target, pname, values.UnsafeAsPointer());
     }
 
     public static void GetTexParameter(TextureParameterTargets target, TextureParameters pname, Span<int> values)
     {
-        glGetTexParameteriv(target, pname, values.AsPointer());
+        glGetTexParameteriv(target, pname, values.UnsafeAsPointer());
     }
 
     public static void GetTexParameterI(TextureParameterTargets target, TextureParameters pname, Span<int> values)
     {
-        glGetTexParameterIiv(target, pname, values.AsPointer());
+        glGetTexParameterIiv(target, pname, values.UnsafeAsPointer());
     }
 
     public static void GetTexParameterI(TextureParameterTargets target, TextureParameters pname, Span<uint> values)
     {
-        glGetTexParameterIuiv(target, pname, values.AsPointer());
+        glGetTexParameterIuiv(target, pname, values.UnsafeAsPointer());
     }
 
     public static bool IsTexture(uint texture)
@@ -259,7 +259,7 @@ public static unsafe partial class GL
 
     public static void TexImage1D<T>(Texture1DTargets target, int level, Internal1DFormats internalFormat, int width, int border, TexturePixelFormats format, PixelTypes type, ReadOnlySpan<T> data) where T : unmanaged
     {
-        glTexImage1D(target, level, internalFormat, width, border, format, type, (void*)data.AsPointer());
+        glTexImage1D(target, level, internalFormat, width, border, format, type, (void*)data.UnsafeAsPointer());
     }
 
     public static void TexImage2DAlt(Texture2DTargets target, int level, InternalPixelFormats internalFormat, int width, int height, int border, PixelFormats format, PixelTypes type, nint data)
@@ -280,7 +280,7 @@ public static unsafe partial class GL
 
     public static void TexImage2D<T>(Texture2DTargets target, int level, SizedInternalFormats internalFormat, int width, int height, int border, TexturePixelFormats format, PixelTypes type, ReadOnlySpan<T> data) where T : unmanaged
     {
-        glTexImage2D(target, level, internalFormat, width, height, border, format, type, (void*)data.AsPointer());
+        glTexImage2D(target, level, internalFormat, width, height, border, format, type, (void*)data.UnsafeAsPointer());
     }
 
     public static void TexImage2DMultisample(Texture2DMultisampleTargets target, int samples, SizedInternalFormats internalFormat, int width, int height, bool fixedSampleLocations)
@@ -295,7 +295,7 @@ public static unsafe partial class GL
 
     public static void TexImage3D<T>(Texture3DTargets target, int level, SizedInternalFormats internalFormat, int width, int height, int depth, int border, TexturePixelFormats format, PixelTypes type, ReadOnlySpan<T> data) where T : unmanaged
     {
-        glTexImage3D(target, level, internalFormat, width, height, depth, border, format, type, (void*)data.AsPointer());
+        glTexImage3D(target, level, internalFormat, width, height, depth, border, format, type, (void*)data.UnsafeAsPointer());
     }
 
     public static void TexImage3DMultisample(Texture3DMultisampleTargets target, int samples, SizedInternalFormats internalFormat, int width, int height, int depth, bool fixedSamplelocations)
@@ -325,7 +325,7 @@ public static unsafe partial class GL
     {
         if (parameterName is not TextureParameters.TextureMagFilter)
             throw new ArgumentException("Expected a value for {parameterName}, received a value for Texture Mag Filter", nameof(parameter));
-            
+
         glTexParameteri(target, parameterName, (int)parameter);
     }
 
@@ -333,7 +333,7 @@ public static unsafe partial class GL
     {
         if (parameterName is not (TextureParameters.TextureWrapS or TextureParameters.TextureWrapT or TextureParameters.TextureWrapR))
             throw new ArgumentException("Expected a value for {parameterName}, received a value for Texture Wrap", nameof(parameter));
-            
+
         glTexParameteri(target, parameterName, (int)parameter);
     }
 
@@ -369,7 +369,7 @@ public static unsafe partial class GL
 
     public static void TexSubImage1D<T>(Texture1DTargets target, int level, int xoffset, int width, TexturePixelFormats format, PixelTypes type, ReadOnlySpan<T> data) where T : unmanaged
     {
-        glTexSubImage1D(target, level, xoffset, width, format, type, (void*)data.AsPointer());
+        glTexSubImage1D(target, level, xoffset, width, format, type, (void*)data.UnsafeAsPointer());
     }
 
     public static void TexSubImage2D(Texture2DTargets target, int level, int xoffset, int yoffset, int width, int height, TexturePixelFormats format, PixelTypes type, void* data)
@@ -379,7 +379,7 @@ public static unsafe partial class GL
 
     public static void TexSubImage2D<T>(Texture2DTargets target, int level, int xoffset, int yoffset, int width, int height, TexturePixelFormats format, PixelTypes type, ReadOnlySpan<T> data) where T : unmanaged
     {
-        glTexSubImage2D(target, level, xoffset, yoffset, width, height, format, type, (void*)data.AsPointer());
+        glTexSubImage2D(target, level, xoffset, yoffset, width, height, format, type, (void*)data.UnsafeAsPointer());
     }
 
     public static void TexSubImage3D(Texture3DTargets target, int level, int xoffset, int yoffset, int zoffset, int width, int height, int depth, TexturePixelFormats format, PixelTypes type, void* data)
@@ -389,7 +389,6 @@ public static unsafe partial class GL
 
     public static void TexSubImage3D<T>(Texture3DTargets target, int level, int xoffset, int yoffset, int zoffset, int width, int height, int depth, TexturePixelFormats format, PixelTypes type, ReadOnlySpan<T> data) where T : unmanaged
     {
-        glTexSubImage3D(target, level, xoffset, yoffset, zoffset, width, height, depth, format, type, (void*)data.AsPointer());
+        glTexSubImage3D(target, level, xoffset, yoffset, zoffset, width, height, depth, format, type, (void*)data.UnsafeAsPointer());
     }
 }
-

@@ -18,7 +18,7 @@ public static unsafe partial class GL
     public static void BindAttribLocation (uint program, uint index, string name)
     {
         using var unmanagedName = new UnmanagedStr(name);
-        glBindAttribLocation(program, index, unmanagedName.Pointer);
+        glBindAttribLocation(program, index, unmanagedName);
     }
 
     [OverloadResolutionPriority(1)]
@@ -33,7 +33,7 @@ public static unsafe partial class GL
 
     public static void BindAttribLocation (uint program, uint index, ReadOnlySpan<byte> name)
     {
-        glBindAttribLocation(program, index, name.AsPointer());
+        glBindAttribLocation(program, index, name.UnsafeAsPointer());
     }
 
     public static void CompileShader(uint shader)
@@ -106,7 +106,7 @@ public static unsafe partial class GL
     {
         return GetShader(shader, ShaderParameterNames.CompileStatus) == True;
     }
-    
+
     public static int GetShaderInfoLogLength (uint shader)
     {
         return GetShader(shader, ShaderParameterNames.InfoLogLength);

@@ -41,7 +41,7 @@ public static unsafe partial class GL
     public static void BufferData<T>(BufferTargets target, ReadOnlySpan<T> data, BufferUsageHints usage) where T : unmanaged
     {
         int size = sizeof(T) * data.Length;
-        glBufferData(target, size, data.AsPointer(), usage);
+        glBufferData(target, size, data.UnsafeAsPointer(), usage);
     }
 
     public static void BufferSubData<T>(BufferTargets target, int offset, T data) where T : unmanaged
@@ -53,7 +53,7 @@ public static unsafe partial class GL
     public static void BufferSubData<T>(BufferTargets target, int offset, ReadOnlySpan<T> data) where T : unmanaged
     {
         int size = sizeof(T) * data.Length;
-        glBufferSubData(target, offset, size, data.AsPointer());
+        glBufferSubData(target, offset, size, data.UnsafeAsPointer());
     }
 
     public static void CopyBufferSubData(BufferTargets readTarget, BufferTargets writeTarget, int readOffset, int writeOffset, int size)
@@ -68,7 +68,7 @@ public static unsafe partial class GL
 
     public static void DeleteBuffers(ReadOnlySpan<uint> buffers)
     {
-        glDeleteBuffers(buffers.Length, buffers.AsPointer());    
+        glDeleteBuffers(buffers.Length, buffers.UnsafeAsPointer());    
     }
 
     public static void DisableVertexAttribArray(uint index)
@@ -98,7 +98,7 @@ public static unsafe partial class GL
 
     public static void DrawElementsBaseVertex<T> (DrawModes mode, int count, ElementTypes type, ReadOnlySpan<T> indices, int basevertex) where T : unmanaged
     {
-        glDrawElementsBaseVertex(mode, count, type, (void*)indices.AsPointer(), basevertex);
+        glDrawElementsBaseVertex(mode, count, type, (void*)indices.UnsafeAsPointer(), basevertex);
     }
 
     public static void EnableVertexAttribArray(uint index)
@@ -116,7 +116,7 @@ public static unsafe partial class GL
     public static uint[] GenBuffers(uint count)
     {
         uint[] buffers = new uint[count];
-        glGenBuffers(buffers.Length, buffers.AsPointer());
+        glGenBuffers(buffers.Length, buffers.UnsafeAsPointer());
         return buffers;
     }
 

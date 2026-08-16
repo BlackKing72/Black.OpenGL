@@ -42,7 +42,7 @@ public static unsafe partial class GL
 
     public static void DeleteFramebuffers(ReadOnlySpan<uint> framebuffers)
     {
-        glDeleteFramebuffers((uint)framebuffers.Length, framebuffers.AsPointer());
+        glDeleteFramebuffers((uint)framebuffers.Length, framebuffers.UnsafeAsPointer());
     }
 
     public static void DeleteRenderbuffer(uint renderbuffer)
@@ -52,12 +52,12 @@ public static unsafe partial class GL
 
     public static void DeleteRenderbuffers(ReadOnlySpan<uint> renderbuffers)
     {
-        glDeleteRenderbuffers((uint)renderbuffers.Length, renderbuffers.AsPointer());
+        glDeleteRenderbuffers((uint)renderbuffers.Length, renderbuffers.UnsafeAsPointer());
     }
 
     public static void DrawBuffers(ReadOnlySpan<DrawBufferModes> bufs)
     {
-        glDrawBuffers((uint)bufs.Length, bufs.AsPointer());
+        glDrawBuffers((uint)bufs.Length, bufs.UnsafeAsPointer());
     }
 
     public static void FramebufferRenderbuffer(FramebufferTargets target, FramebufferAttachments attachment, uint renderbuffer)
@@ -96,11 +96,11 @@ public static unsafe partial class GL
         glGenFramebuffers(1, &framebuffer);
         return framebuffer;
     }
-    
+
     public static uint[] GenFramebuffers(uint count)
     {
         uint[] framebuffers = new uint[count];
-        glGenFramebuffers(count, framebuffers.AsPointer());
+        glGenFramebuffers(count, framebuffers.UnsafeAsPointer());
         return framebuffers;
     }
 
@@ -110,11 +110,11 @@ public static unsafe partial class GL
         glGenRenderbuffers(1, &renderbuffer);
         return renderbuffer;
     }
-    
+
     public static uint[] GenRenderbuffers(uint count)
     {
         uint[] renderbuffers = new uint[count];
-        glGenRenderbuffers(count, renderbuffers.AsPointer());
+        glGenRenderbuffers(count, renderbuffers.UnsafeAsPointer());
         return renderbuffers;
     }
 
@@ -129,7 +129,7 @@ public static unsafe partial class GL
         glGetFramebufferAttachmentParameteriv(target, attachment, parameter, &value);
         return value;
     }
-    
+
     public static int GetRenderbufferParameter(FramebufferTargets target, RenderbufferParameters parameter)
     {
         int value;
