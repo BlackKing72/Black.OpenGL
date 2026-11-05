@@ -10,19 +10,19 @@ using static Black.OpenGL.Native;
 
 public static unsafe partial class GL
 {
-    public static void AttachShader (uint program, uint shader)
+    public static void AttachShader(uint program, uint shader)
     {
         glAttachShader(program, shader);
     }
 
-    public static void BindAttribLocation (uint program, uint index, string name)
+    public static void BindAttribLocation(uint program, uint index, string name)
     {
         using var unmanagedName = new UnmanagedStr(name);
         glBindAttribLocation(program, index, unmanagedName);
     }
 
     [OverloadResolutionPriority(1)]
-    public static void BindAttribLocation (uint program, uint index, ReadOnlySpan<char> name)
+    public static void BindAttribLocation(uint program, uint index, ReadOnlySpan<char> name)
     {
         int byteLen = Encoding.UTF8.GetByteCount(name);
         Span<byte> bytes = stackalloc byte[byteLen];
@@ -31,7 +31,7 @@ public static unsafe partial class GL
         BindAttribLocation(program, index, bytes);
     }
 
-    public static void BindAttribLocation (uint program, uint index, ReadOnlySpan<byte> name)
+    public static void BindAttribLocation(uint program, uint index, ReadOnlySpan<byte> name)
     {
         glBindAttribLocation(program, index, name.UnsafeAsPointer());
     }
@@ -63,7 +63,7 @@ public static unsafe partial class GL
 
     public static void DeleteShaders(ReadOnlySpan<uint> shaders)
     {
-        foreach(var shader in shaders)
+        foreach (var shader in shaders)
             glDeleteShader(shader);
     }
 
@@ -74,7 +74,7 @@ public static unsafe partial class GL
 
     public static void DetachShaders(uint program, ReadOnlySpan<uint> shaders)
     {
-        foreach(var shader in shaders)
+        foreach (var shader in shaders)
             glDetachShader(program, shader);
     }
 
@@ -102,12 +102,12 @@ public static unsafe partial class GL
         return parameter;
     }
 
-    public static bool GetShaderCompileStatus (uint shader)
+    public static bool GetShaderCompileStatus(uint shader)
     {
         return GetShader(shader, ShaderParameterNames.CompileStatus) == True;
     }
 
-    public static int GetShaderInfoLogLength (uint shader)
+    public static int GetShaderInfoLogLength(uint shader)
     {
         return GetShader(shader, ShaderParameterNames.InfoLogLength);
     }
@@ -132,7 +132,7 @@ public static unsafe partial class GL
         return unmanagedInfoLog;
     }
 
-    public static int GetAttribLocation (uint program, string name)
+    public static int GetAttribLocation(uint program, string name)
     {
         using var unmanagedName = new UnmanagedStr(name);
         return glGetAttribLocation(program, unmanagedName);
@@ -169,7 +169,6 @@ public static unsafe partial class GL
         return glIsShader(shader).FromGLBoolean();
     }
 
-
     public static void LinkProgram(uint program)
     {
         glLinkProgram(program);
@@ -197,52 +196,67 @@ public static unsafe partial class GL
         glShaderSource(shader, sources.Length, unmanagedSources, unmanagedLengths);
     }
 
-    public static void UseProgram (uint program)
+    public static void UseProgram(uint program)
     {
         glUseProgram(program);
     }
 
-    public static void Uniform (int location, float v0)
+    public static void Uniform(int location, float v0)
     {
         glUniform1f(location, v0);
     }
 
-    public static void Uniform (int location, float v0, float v1)
+    public static void Uniform(int location, float v0, float v1)
     {
         glUniform2f(location, v0, v1);
     }
 
-    public static void Uniform (int location, float v0, float v1, float v2)
+    public static void Uniform(int location, float v0, float v1, float v2)
     {
         glUniform3f(location, v0, v1, v2);
     }
 
-    public static void Uniform (int location, float v0, float v1, float v2, float v3)
+    public static void Uniform(int location, float v0, float v1, float v2, float v3)
     {
         glUniform4f(location, v0, v1, v2, v3);
     }
 
-    public static void Uniform (int location, int v0)
+    public static void Uniform(int location, int v0)
     {
         glUniform1i(location, v0);
     }
 
-    public static void Uniform (int location, int v0, int v1)
+    public static void Uniform(int location, int v0, int v1)
     {
         glUniform2i(location, v0, v1);
     }
 
-    public static void Uniform (int location, int v0, int v1, int v2)
+    public static void Uniform(int location, int v0, int v1, int v2)
     {
         glUniform3i(location, v0, v1, v2);
     }
 
-    public static void Uniform (int location, int v0, int v1, int v2, int v3)
+    public static void Uniform(int location, int v0, int v1, int v2, int v3)
     {
         glUniform4i(location, v0, v1, v2, v3);
     }
 
-    public static void UniformMatrix (int location, bool transpose, Matrix4x4 matrix)
+    public static void Uniform(int location, ReadOnlySpan<Vector3> data)
+    {
+        glUniform3fv(location, data.Length, (float*)data.UnsafeAsPointer());
+    }
+
+    public static void Uniform(int location, ReadOnlySpan<Vector4> data)
+    {
+        glUniform4fv(location, data.Length, (float*)data.UnsafeAsPointer());
+    }
+
+    public static void UniformMatrix(int location, bool transpose, ReadOnlySpan<Matrix4x4> data)
+    {
+        glUniformMatrix4fv(location, data.Length, transpose.ToGLBoolean(), (float*)data.UnsafeAsPointer());
+    }
+
+    public static void UniformMatrix(int location, bool transpose, Matrix4x4 matrix)
     {
         glUniformMatrix4fv(location, 1, transpose.ToGLBoolean(), &matrix.M11);
     }
@@ -251,5 +265,4 @@ public static unsafe partial class GL
     {
         glUniformBlockBinding(program, uniformBlockIndex, uniformBlockBinding);
     }
-
 }

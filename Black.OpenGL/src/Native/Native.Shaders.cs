@@ -1,9 +1,11 @@
 #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
 #pragma warning disable CS0649 // Field is never assigned to, and will always have its default value null
+
 using Black.Unmanaged;
 
 namespace Black.OpenGL;
 
+// csharpier-ignore-start
 internal unsafe partial class Native
 {
     internal delegate void AttachShader(uint program, uint shader);
@@ -78,6 +80,12 @@ internal unsafe partial class Native
     internal delegate void Uniform4f(int location, float v0, float v1, float v2, float v3);
     [OpenGL<Uniform4f>] internal static Uniform4f glUniform4f;
 
+    internal delegate void Uniform3fv(int location, int count, float* value);
+    [OpenGL<Uniform3fv>] internal static Uniform3fv glUniform3fv;
+
+    internal delegate void Uniform4fv(int location, int count, float* value);
+    [OpenGL<Uniform4fv>] internal static Uniform4fv glUniform4fv;
+
     internal delegate void Uniform1i(int location, int v0);
     [OpenGL<Uniform1i>] internal static Uniform1i glUniform1i;
 
@@ -96,6 +104,7 @@ internal unsafe partial class Native
     internal delegate void UniformBlockBinding(uint program, uint uniformBlockIndex, uint uniformBlockBinding);
     [OpenGL<UniformBlockBinding>] internal static UniformBlockBinding glUniformBlockBinding;
 }
+// csharpier-ignore-end
 
 #pragma warning restore CS0649 // Field is never assigned to, and will always have its default value null
 #pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.

@@ -85,6 +85,11 @@ public static unsafe partial class GL
     {
         glDrawElements(mode, count, type, NullPtr);
     }
+
+    public static void DrawElementsInstanced(DrawModes mode, int count, ElementTypes type, int instanceCount)
+    {
+        glDrawElementsInstanced(mode, count, type, NullPtr, instanceCount);
+    }
     
     public static void DrawElementsBaseVertex (DrawModes mode, int count, ElementTypes type, void *indices, int basevertex)
     {
